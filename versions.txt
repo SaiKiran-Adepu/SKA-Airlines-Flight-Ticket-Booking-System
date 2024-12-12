@@ -24,4 +24,123 @@ Version 9
 In this version all index guest related things are done with all testing and ticket Index and user feedback
 if the flights with origin destination of fares doesn't exist then it will popup an alert
 and cleared the issue with journey date with return date is less than the JD
-user side reservation in progress
+user side reservation in progress stoped and implementing admin side
+
+Version 10 
+
+here the data that will common to the html pages without by one to another it will done by the python routes
+and the fare automatically increses with passenger names auto capitals
+
+Version 11 
+here the admin side booking done with automatic seat number based on the class selection by python code there is no sql query used to make this 
+and all maked responsive with db tables done with dynamic ticket model now added user number at time of resesrvation if the user register he can again re download the user from portal
+
+Version 12 
+in this version maked the application more responsive and focused on the download the ticket instead of print 
+maked as more responsive UI fare logics if its roundtrip then base fare=basfe_fare*2 and all the chages also visible double previous logic also correct but here dynamically visibles
+
+Version 13 
+here the user number if admin enters the user name will displays and developed almost admin related things
+and add admin pnr enq that audits all the booking related things
+added user booking auditing, added extra text box for country code while adding a new airport
+here simply from user booking history connected with admin_onr_enq which will already retrives all the booking related things time and code save purpose 
+
+Version 14
+Here in this version included the date of the journey is reached then journey status will automatically updates to completed and if the journey in IP then it will IP at the time of booking the Ticket the coulm auto updates to IP if the ticket that cancelled by admin or user then it will be in canceled status for this we used the event handler sql query
+
+and developed upto plane schedule which are common to all the users like admin user and guest
+and now plane name automatically displays when the plane number enters while plane schedule
+
+Version 15 
+in this version developed the Pnr index module and user index page now displaying in mobile devices
+and maked the plane schedule and index pnr is a common to user and index page
+but when ticket downlod to user side to particular user only
+
+Version 16 
+In this version fully developed Bank gateway with User ticket Booking with proper logic and data
+and implemented upto user ticket download
+
+Version 17
+In this Version added the caution that alert the user and admin for entering the user name while booking
+and developed the user journey history here routes from index->user_journey_history.py->user->user_journey_history_su.html->user_journey_history1.py->user_ticket_download_su.html
+
+yes we here directly call but here we used the session for particular user only 
+
+
+Version 18
+
+Developed Fully User cancellable ticket with Bank Gateway 
+and reduced the separate Views for User to download the CNF either CAN and with all Journey Status
+and removed the Ticket Download Module which is now not need because that will need to enter the user PNR again thats why removed
+now just user selects the group of available CNF or either CAN or either Both from the list and download 
+
+
+Version 19
+Developed the user Feedback module and user mobile update
+
+Version 20 
+Developed user Password Update Module and improved Some Code Useability
+
+Version 21
+Developed the Admin cancellation Ticket Module 
+but pending with the Payment modes like if admin booked a ticket without the bank ac details at admin side only
+then while admin try to cancel the admin booked ticket it already fetching the bank details but account details empty
+for this add module like admin booking side or admin ticket cancel module that need to ask user bank account number any one is mandatory
+
+generally admin side admin cancel the ticket with most digital payments only then need to enter account details while in admin booking time or admin cancel time but need to retrieve with account details like account number with account name dynamically
+
+Version 22
+In this Version developed the fully Admin side Cancellation with transactions types cash and Digital Payment
+and pending with dynamic AC user Number with AC User name
+
+Version 23 
+In this version Developed the Fully Admin cancel ticket module with automatic user AC number with name fetching in python code 
+and added the js logic on both user side and admin side that for printing the ticket if it is a CAN ticket then it disply dynamically the cancellation fare details if it is a CNF ticket then it display only confirmed details which reduce the our extra Code for CAN ticket module.....
+
+Version 24
+In this Version Developed the date related things that not with html forms direct with python code
+
+and reduced the ticket download that common to the CNF and CAN tickets with same program and with a js code that if the cancellation 
+ticket details empty then those will in hidden if those contain a data then it will visible at admin side ticket download
+and user side total user journey history/print or view
+
+at admin side total feedbacks Controlling that will reduce the or connect with delete feedback when admin select a Feedback that will delete at the time of selection
+
+And Maintained the Airline Fund related Details that accurate to Total available funds in the SKA-AIRLINES
+
+And Maintained the code as more properly with correct layout 
+
+Version 25
+In this Version mainly focused on the seat availability based on the seat selection by the user and admin
+for this we used the seats_avl.py in admin folder that common to the admin user and gest/index user
+by this program the available seats in the Db are fetched in this we used the json and MySQL joins query
+and also make the realistic seats booking seats layout.
+
+Version 26
+In this version added a submodule that checks/modify the flight search details on the same page for admin user and guest user
+this will help users to re check with different plane classes with different dates and fare at a same page.
+
+Version 27
+In this Version developed the module that the seat numbers automatically allocate based on the flight_number flight_class and resets the seat numbers when its reached.
+
+Version 28
+IN this Version Improved the seat allocation trigger that based on the flight_number flight_class and jd(Journey date)
+
+EX flight number=AA12AA class=First Class jd=15/Sep/2024 then seat = 1A
+
+flight number=AA12AA class=First Class jd=16/Sep/2024 then seat = 1A
+
+now flight number=AA12AA class=First Class jd=15/Sep/2024 then seat = 1B
+
+the seat allocation automatically based on the flight number flight class and jd(journey date)
+
+
+If any issues with Current Version occurs then need to be a Feature Look......
+
+Like Adding new Airports with The Fares Between the Airports
+
+and try to link SKA-airline to ska bank at for admin side ticket booking time only already user side both ticket booking and cancellation done and at admin side also ticket cancellation done but at time of ticket booking it not mandatory but easy to calculate or audits 
+
+ie when admin ticket book then fund need to increase to the bank ac of ska airlines account 106 or its not mandatory because we already fetched the total available funds in airline reservation
+
+THE_END..........
