@@ -1,146 +1,609 @@
-latest one is latest ie
-airline0 is old
-airline1 is new than airline0
+THE SKA AIRLINES VERSIONS AND APPLICATION DEVELOPMENTS ✈️🛠️
 
-similarly see the last version
+SKA Airlines ✈️ Application Changelog 🛠️
 
-airline 3 upto index page is changing there
-airline 4 upto index page is changing there ticket_index with guest user
-routes.py for html routesh.py got .py files the common files in the web site
+The latest version is always the newest ✨; airline0 is old 📦, and airline1 is newer than airline0 🆕.
 
-airline v 4
-in this data retrives from db table where it needed to write like routes_html.py inside the module where we need
-done upto airport_fare
+For reference, the last version has all the most recent updates ⏩.
 
-version 7 
-done with adding plane quota while adding a new plane
+airline3: Up to the index page, changes are applied there 📄.
 
-version 8 
-done with new user registration with error flash whwn duplicate or refresh the page
-also checked all the pages with where falsh present like admin add airport fare flight if any duplicates
-also restricted the refresh page when the endpoint like user_resiter_success.html if we again reload it will redirect to first page with error message like it already exist these will help to prevent the data duplicates in DB
+airline4: Up to the index page, with updates to ticket_index for guest users 🧑🦱👤.
 
-Version 9 
-In this version all index guest related things are done with all testing and ticket Index and user feedback
-if the flights with origin destination of fares doesn't exist then it will popup an alert
-and cleared the issue with journey date with return date is less than the JD
-user side reservation in progress stoped and implementing admin side
+The file routes.py manages HTML routes 📂, and common .py files are used throughout the website 💻.
 
-Version 10 
+Airline v4 🛩️
+Data now retrieves from DB tables in the right places 📊, such as routes_html.py inside the needed module.
 
-here the data that will common to the html pages without by one to another it will done by the python routes
-and the fare automatically increses with passenger names auto capitals
+Progressed up to the airport_fare section 🏷️.
 
-Version 11 
-here the admin side booking done with automatic seat number based on the class selection by python code there is no sql query used to make this 
-and all maked responsive with db tables done with dynamic ticket model now added user number at time of resesrvation if the user register he can again re download the user from portal
+Version 7 ✅
+Added plane quota feature 🛬 when adding a new plane; tracking capacity is much easier now! 🤓
 
-Version 12 
-in this version maked the application more responsive and focused on the download the ticket instead of print 
-maked as more responsive UI fare logics if its roundtrip then base fare=basfe_fare*2 and all the chages also visible double previous logic also correct but here dynamically visibles
+Version 8 🔐
+Implemented new user registration with error flashes 🚦 when users try to register duplicates or refresh the page.
 
-Version 13 
-here the user number if admin enters the user name will displays and developed almost admin related things
-and add admin pnr enq that audits all the booking related things
-added user booking auditing, added extra text box for country code while adding a new airport
-here simply from user booking history connected with admin_onr_enq which will already retrives all the booking related things time and code save purpose 
+Checked pages for flash messages: Whenever you add things like airports or fares, you get an alert ⚠️ for duplicates.
 
-Version 14
-Here in this version included the date of the journey is reached then journey status will automatically updates to completed and if the journey in IP then it will IP at the time of booking the Ticket the coulm auto updates to IP if the ticket that cancelled by admin or user then it will be in canceled status for this we used the event handler sql query
+If the endpoint is user_register_success.html and the page is reloaded, you’re redirected 🔄 to the homepage with an error, preventing duplicate DB entries 🙅♂️.
 
-and developed upto plane schedule which are common to all the users like admin user and guest
-and now plane name automatically displays when the plane number enters while plane schedule
+Version 9 🧪
+All guest-related index functions completed, with tests 🎯, ticket index, and user feedback included 💌.
 
-Version 15 
-in this version developed the Pnr index module and user index page now displaying in mobile devices
-and maked the plane schedule and index pnr is a common to user and index page
-but when ticket downlod to user side to particular user only
+If flights for a chosen origin-destination pair don’t exist, there’s an alert popup 🚨.
 
-Version 16 
-In this version fully developed Bank gateway with User ticket Booking with proper logic and data
-and implemented upto user ticket download
+Fixed journey date logic 📅: now the return date can't be before the journey date 🕓.
 
-Version 17
-In this Version added the caution that alert the user and admin for entering the user name while booking
-and developed the user journey history here routes from index->user_journey_history.py->user->user_journey_history_su.html->user_journey_history1.py->user_ticket_download_su.html
+User-side reservation is paused 🛑, while admin-side implementation is underway 🛠️.
 
-yes we here directly call but here we used the session for particular user only 
+Version 10 🐍
+Shared data for HTML pages is now passed centrally through Python routes ⚙️, no more repetitive transfer.
+
+Fares automatically update ⬆️, and all passenger names are shown in uppercase 🔠.
+
+Version 11 📱
+Admin-side booking features auto-assign seat numbers based on class selection 🚥 by Python code—all logic, zero SQL!
+
+All tickets and tables now use a responsive design 📲.
+
+Added user number at reservation time; registered users can re-download their ticket from the portal 🔃.
+
+Version 12 🎯
+Refined application responsiveness: focus is now on downloading tickets instead of printing 🖨️➡️💾.
+
+UI and fare logic now support roundtrips: base fare is doubled (base_fare*2) ⏩, and dynamic updates are clearly visible!
+
+Fixed issues with previous double-calculation logic; updates now show live 🔄.
+
+Version 13 👨💼
+Admin entering a username now reveals the user number instantly 👀.
+
+Developed almost all admin features, including a robust PNR enquiry/audit system 🔍 for all bookings.
+
+Admin and user booking histories are linked 📈; also added textbox for country code when adding new airports 🌏.
+
+Version 14 📆
+If the journey date is reached, journey status updates to “completed” automatically ✅.
+
+When booking is "In Progress," the status is set to “IP” instantly ⚡.
+
+Cancelled tickets are clearly flagged 🚩. Event handlers with SQL keep everything up to date.
+
+Plane schedules are available to all users 👥, and entering a plane number instantly reveals the plane name 🛫.
+
+Version 15 📲
+Built PNR index module; user index page is now mobile-friendly 📱.
+
+Plane schedule and PNR index pages are shared between main user and index pages 🔗.
+
+When downloading tickets, each user only sees their own—privacy protected! 🔒
+
+Version 16 🏦
+Fully developed the Bank Gateway 💳 integrated with User Ticket Booking 🎫 with proper logic and data flow.
+
+Implemented up to user ticket download 💾.
+
+Version 17 ⚠️
+Added caution alerts 🚨 for users and admin when entering the user name during booking.
+
+Developed User Journey History tracking 📜: routes from index -> user_journey_history.py -> user -> user_journey_history_su.html -> user_journey_history1.py -> user_ticket_download_su.html
+
+Used session management to ensure data is accessed only for the particular user 🔒.
+
+Version 18 ❌🎟️
+Developed fully user cancellable tickets with Bank Gateway integration 🔄🏦.
+
+Reduced separate views for user to download CNF (confirmed) or CAN (canceled) tickets with all journey statuses.
+
+Removed the old ticket download module 🔥 (no need to enter user PNR again).
+
+Users can select a group of CNF, CAN, or both from the list for easy download 📥.
+
+Version 19 🗣️📱
+Developed User Feedback module 📝 and enhanced user mobile update 📲.
+
+Version 20 🔑🔄
+Developed User Password Update Module 🔐.
+
+Improved some code usability and maintainability 🛠️.
+
+Version 21 ⚠️🧾
+Developed Admin Cancellation Ticket Module 🛑 but pending payment mode handling.
+
+Problem: Admin booked tickets without bank account details cause issues on cancellation (empty account info).
+
+Planned: Added module to require account number at admin booking or cancellation time (mandatory if digital payments involved) 💳.
+
+Version 22 💸
+Completed Admin side cancellation with payment types: Cash and Digital Payment 💵📲.
+
+Pending: Dynamic linking of account user number and name.
+
+Version 23 🧾💻
+Developed full Admin cancel ticket module with automatic fetching of user account number and name in Python code 🤖.
+
+Added JavaScript logic for both user and admin sides to display ticket details dynamically:
+
+For CAN tickets ➡️ show cancellation fare info 🔴
+
+For CNF tickets ➡️ show confirmed details only ✅
+
+Reduced extra code for cancellation ticket handling 🎉.
+
+Version 24 📅💻
+Developed date handling completely in Python code (not HTML forms) 📆🖥️.
+
+Reduced ticket download modules by unifying CNF and CAN ticket handling using JavaScript visibility toggles (hide empty cancellation details) 👻👁️.
+
+Enhanced:
+
+Admin side feedback control with deletion on selection 🗑️
+
+Maintained accurate Airline Fund Details 💰 for SKA Airlines.
+
+Improved code layout and structure for better maintenance 🧹.
+
+Version 25 🪑
+Focused on seat availability based on user/admin seat selection 🎟️🛋️.
+
+Created seats_avl.py in admin folder, shared with admin, user, and guest.
+
+Used JSON + MySQL join queries for realistic seat booking and layout visualization 🎨.
+
+Version 26 🔄
+Added submodule to check/modify flight search details on the same page 👨💻👩💻 for admin and guest users.
+
+Enables quick rechecking with different plane classes, dates, and fares without page reload 💨.
+
+Version 27 🔢
+Developed seat number auto-allocation based on flight_number, flight_class, with seat resets upon reaching max seats 🔄 seats reset.
+
+Version 28 🔎🪑
+Improved seat allocation trigger considering flight_number, flight_class, and journey date (jd).
+
+Example:
+
+Flight: AA12AA, Class: First, JD: 15/Sep/2024 → Seat: 1A
+
+Flight: AA12AA, Class: First, JD: 16/Sep/2024 → Seat: 1A
+
+Flight: AA12AA, Class: First, JD: 15/Sep/2024 (next seat) → Seat: 1B
+
+Allocation dynamically resets per flight, class, and journey date.
+
+Attempted integration: linked SKA Airlines to SKA Bank at admin ticket booking time only.
+
+User-side ticket booking and cancellation fully linked with bank gateway 🏦.
+
+Admin side ticket cancellation done ✅, but booking-side bank account detail input is optional.
+
+Fund increments to SKA Airlines bank account (account 106) handled if provided.
+
+Version 29 💾🔒
+Backed up and inserted all transactions into bank-side database with full control and auditing 🔐.
+
+Issue noted: Cancelling single passenger tickets works, but multiple passenger reservation ticket cancellations fail ❗.
+
+Version 30 🚀🔥 (Most Important Version!)
+Solved all previous issues; implemented correct seat allocation trigger for cancelled seats → seats freed up as available based on flight number, journey date, and flight class 🪑✅.
+
+Fixed issue where only single tickets could be cancelled, now multiple ticket cancellations work smoothly 🎉.
+
+Bug fix: replaced cursor.fetchone() with cursor.fetchall() for multiple records handling 🐛🐞.
+
+Added "Number of Passengers" display in public PNR status 🧑🤝🧑.
+
+Fixed user journey history to accurately show confirmed, canceled, and all statuses 📜.
+
+Removed problematic submodule showing user numbers on admin side during booking — avoiding counter ticket confusion 🚫.
+
+Implemented counter ticket cancellation logic: tickets booked by admin must be cancelled only on admin side as counter tickets ⚠️.
+
+Added "All rights reserved" notices on specified pages ©️.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+✅ PHASE 1: Previously Completed Modules (Theoretical Summary) 🚀✈️
+
+1. Multi-Step Ticket Booking System 🛫🛬 (Admin & User Side)
+Goal: Seamlessly streamline flight ticket booking across multiple pages for a smooth user experience.
+
+ticket_admin1.html ✈️: Captures initial booking inputs like flight number, origin 🏙️, destination 🌍, and dates 📅.
+
+ticket_admin2.html 🎟️: Selects travel class (Economy, Business), quota type 🎫 (e.g., Senior, Student), trip type (One-way/Round-trip 🔄), and number of passengers 👨👩👦👦.
+
+ticket_admin3.html 👤: Collects passenger details — name, age 🎂, gender 🚻, and more.
+
+ticket_admin_final.html 📋: Displays a comprehensive booking summary for final confirmation ✔️.
+
+Note: Sessions 🔄 seamlessly carry data across pages, ensuring no details are lost during the booking flow!
+
+2. Fare Calculation System 💸🧮
+Goal: Dynamically calculate ticket fares based on smart business logic.
+
+Base Fare: Standard flight fare 🎫.
+
+Class Fare: Additional charge based on travel class 🛍️ (e.g., Economy, Business).
+
+Quota Discounts: Special discounts 🏷️ for categories like seniors 👵, students 🎓.
+
+Trip Discounts: Extra savings for round trips 🔄.
+
+Real-time fare updates powered by JavaScript ⚡ keep passengers informed as they add travelers or change selections — no page reloads needed!
+
+3. Seat Allocation Logic 🪑✨
+Goal: Automate seat assignment for every booking to maximize efficiency.
+
+Seats stored in airline_sitting table 📊, e.g., First Class seats from 1A to 3D.
+
+Seats are assigned sequentially 🎯, looping or managing overflow smoothly when full.
+
+Candidate for implementation via SQL triggers 🗃️ or Python logic 🐍 — both approaches explored depending on scalability & flexibility needs.
+
+4. Ticket Cancellation Logic 🔄❌ (User/Admin)
+Goal: Enable smooth ticket cancellation, seat freeing, and refund processing.
+
+Cancellation forms available for both admin and users 🧑💼👤.
+
+Upon cancellation:
+
+Updates the reservation’s status field 🚦 (e.g., canceled).
+
+Calculates and processes refund amount refund_Rs 💰.
+
+Frees or flags the seat in the airline_sitting table for reuse ♻️.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+THE PHASE 2
 
 
-Version 18
+✅ Phase 1 Recap — Locked & Completed
+These are already implemented, tested, and finalized:
 
-Developed Fully User cancellable ticket with Bank Gateway 
-and reduced the separate Views for User to download the CNF either CAN and with all Journey Status
-and removed the Ticket Download Module which is now not need because that will need to enter the user PNR again thats why removed
-now just user selects the group of available CNF or either CAN or either Both from the list and download 
-
-
-Version 19
-Developed the user Feedback module and user mobile update
-
-Version 20 
-Developed user Password Update Module and improved Some Code Useability
-
-Version 21
-Developed the Admin cancellation Ticket Module 
-but pending with the Payment modes like if admin booked a ticket without the bank ac details at admin side only
-then while admin try to cancel the admin booked ticket it already fetching the bank details but account details empty
-for this add module like admin booking side or admin ticket cancel module that need to ask user bank account number any one is mandatory
-
-generally admin side admin cancel the ticket with most digital payments only then need to enter account details while in admin booking time or admin cancel time but need to retrieve with account details like account number with account name dynamically
-
-Version 22
-In this Version developed the fully Admin side Cancellation with transactions types cash and Digital Payment
-and pending with dynamic AC user Number with AC User name
-
-Version 23 
-In this version Developed the Fully Admin cancel ticket module with automatic user AC number with name fetching in python code 
-and added the js logic on both user side and admin side that for printing the ticket if it is a CAN ticket then it disply dynamically the cancellation fare details if it is a CNF ticket then it display only confirmed details which reduce the our extra Code for CAN ticket module.....
-
-Version 24
-In this Version Developed the date related things that not with html forms direct with python code
-
-and reduced the ticket download that common to the CNF and CAN tickets with same program and with a js code that if the cancellation 
-ticket details empty then those will in hidden if those contain a data then it will visible at admin side ticket download
-and user side total user journey history/print or view
-
-at admin side total feedbacks Controlling that will reduce the or connect with delete feedback when admin select a Feedback that will delete at the time of selection
-
-And Maintained the Airline Fund related Details that accurate to Total available funds in the SKA-AIRLINES
-
-And Maintained the code as more properly with correct layout 
-
-Version 25
-In this Version mainly focused on the seat availability based on the seat selection by the user and admin
-for this we used the seats_avl.py in admin folder that common to the admin user and gest/index user
-by this program the available seats in the Db are fetched in this we used the json and MySQL joins query
-and also make the realistic seats booking seats layout.
-
-Version 26
-In this version added a submodule that checks/modify the flight search details on the same page for admin user and guest user
-this will help users to re check with different plane classes with different dates and fare at a same page.
-
-Version 27
-In this Version developed the module that the seat numbers automatically allocate based on the flight_number flight_class and resets the seat numbers when its reached.
-
-Version 28
-IN this Version Improved the seat allocation trigger that based on the flight_number flight_class and jd(Journey date)
-
-EX flight number=AA12AA class=First Class jd=15/Sep/2024 then seat = 1A
-
-flight number=AA12AA class=First Class jd=16/Sep/2024 then seat = 1A
-
-now flight number=AA12AA class=First Class jd=15/Sep/2024 then seat = 1B
-
-the seat allocation automatically based on the flight number flight class and jd(journey date)
+✔️ Feature	Details
+Multi-Step Ticket Booking	Admin + User Booking Flow
+Dynamic Fare Calculation (JS)	Class, Quota, Trip Mode based
+Round Trip Fare Logic	Fare doubling + Return Date check
+Seat Allocation Trigger	CNF/Seat assignment via Trigger
+Seat Reuse Logic	Based on Flight No + JD/RD
+Ticket Cancellation + Refund	Refund logic based on status/date
+PDF Ticket + Cancel PDF	Using reportlab or fpdf
+Admin Dashboard (Text)	CRUD, Search, Manage
+Passenger Manifest	Based on PNR & Flight filter
+Payment Simulation (Manual)	Form input only
 
 
-If any issues with Current Version occurs then need to be a Feature Look......
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
-Like Adding new Airports with The Fares Between the Airports
+🚀 PHASE 2 DEVELOPMENT PLAN
+Unleashing dynamic, modern features for SKA Airlines! ✨
 
-and try to link SKA-airline to ska bank at for admin side ticket booking time only already user side both ticket booking and cancellation done and at admin side also ticket cancellation done but at time of ticket booking it not mandatory but easy to calculate or audits 
+1. 🧾 QR Code Integration in Ticket PDFs
+Purpose: Fast airport check-in & digital ticket verification—COMPLETED ✅
 
-ie when admin ticket book then fund need to increase to the bank ac of ska airlines account 106 or its not mandatory because we already fetched the total available funds in airline reservation
+pip install qrcode[pil]           # QR Code generation
 
-THE_END..........
+Libraries Used: qrcode, base64, reportlab/fpdf
+
+QR Code Data Example:
+
+json
+{
+  "PNR": "12345",
+  "Passenger": "John Doe",
+  "Flight No": "AI-202",
+  "Seat": "2A",
+  "Date": "2025-07-21"
+}
+Workflow:
+Generate QR Code → Base64 encode → Embed in ticket PDF
+Optionally preview QR in HTML before download 👀
+
+2. 📧 Email Notification System
+Purpose: Instantly update users via email on bookings and cancellations ✉️📤
+
+When to Send:
+
+On Booking ✅ (attach PDF ticket)
+
+On Cancellation ❌ (with refund details or summary)
+
+https://myaccount.google.com/apppasswords to Generate the app password to use in the email system
+
+
+Libraries & Install Commands:
+
+text
+pip install Flask flask-mail reportlab
+Email Package: Flask-Mail (SMTP-based)
+
+Session Management:
+
+text
+pip install Flask-Session
+python
+from flask_session import Session
+app.config['SESSION_TYPE'] = 'filesystem'  # Or use 'redis', 'sqlalchemy'
+Session(app)
+To Do:
+
+Configure mail server and authentication 🔑
+
+Trigger email on ticket booking/cancellation events 📬
+
+3. 💳 QR Code Payment Gateway (Simulated)
+Purpose: Simulate secure payments with QR before final booking 💰
+
+Sample QR Payment Data:
+
+json
+{
+  "Amount": 5600,
+  "Reference": "PNR-12345",
+  "Payee": "SKA Airlines",
+  "Timestamp": "2025-07-08 11:23:12"
+}
+Steps:
+
+Show payment QR on page
+
+Simulate “Payment Done” → Confirm booking
+
+4. 📊 Graphical Admin Dashboard
+Purpose: Bring insights to life with eye-catching visuals! 📈
+
+Key Charts:
+
+Bookings per Day 📅
+
+Revenue per Flight/Class 💸
+
+Cancellation vs Confirmed Trends 📊
+
+Libraries:
+
+Frontend: Chart.js, Plotly.js
+
+Backend: Flask serves JSON endpoints
+
+To Do:
+
+Dashboard HTML
+
+AJAX endpoints for live data
+
+Note: Reservation funds visualization already implemented ✅
+
+5. 🪄 Advanced Seat Allocation by Flight Type
+Purpose: Automatically manage seat allocation by aircraft type 🚦
+
+Features:
+
+Flight types (Boeing, Airbus) + seat range config for FC, BC, PECO, ECO
+
+Auto-assign seats according to chosen flight type ✈️
+
+Implementation:
+
+Add flight_type field in flights table
+
+On selecting flight, auto-populate seat/class limits (JS or backend)
+
+To Do:
+
+Module: flight_type_seats.py
+
+Embed logic in JS/frontend or backend
+
+6. 🛠️ Common DB Configuration File
+Purpose: Centralized & secure database connection 🔐
+
+File: db_config.py
+
+python
+import mysql.connector
+def get_connection():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='tiger',
+        database='airline'
+    )
+Usage:
+
+python
+from db_config import get_connection
+Status: DONE ✅
+
+7. 🔁 Dynamic Fare Calculation (From DB)
+Purpose: No more hardcoded fares—fetch dynamically from DB 📂
+
+Current: Static fare in HTML—OUTDATED 🚫
+
+New: Calculate on backend from class, quota, base fare, origin, destination, distance
+
+To Do:
+
+Revise DB schema if needed
+
+Implement logic to fetch accurate fare on every booking
+
+Status: Successfully implemented! 🎉
+
+8. 🧮 Admin Fare Update & Visualization
+Purpose: Equip admin with powerful fare editing & analysis tools! 🛠️
+
+Features:
+
+Form-based UI: edit fares for class/km/origin-destination
+
+Optional: auto-calculate fare increases by percentage
+
+Action Items:
+
+Fetch/update from fare_config table
+
+Build responsive admin HTML page
+
+9. 🌐 Dynamic IP Address / Domain Binding
+Purpose: Make SKA Airlines accessible by domain name instead of raw IP 📲
+
+Outcome: Users can reach the app at https://ska-airlines.com vs. http://xxx.xxx.xxx.xxx
+
+Status: DONE ✅
+
+10. ⏰ Enhanced Time Logic (Optional Future Step)
+Purpose: Add robust Departure/Arrival Time management in booking system 🕰️
+
+What’s Next?
+
+Integrate time pickers in booking UI
+
+Use backend logic to ensure valid, timezone-aware times
+
+
+Installations Required 
+
+pip install qrcode[pil]           # QR Code generation
+pip install Flask flask-mail      # Email sending
+pip install Flask-Session         # Session management
+pip install reportlab             # PDF generation
+pip install mysql-connector-python
+pip install mysql-connector-python  # MySQL database connector
+
+🔥 VERSION 31
+Implemented fully importable QR code generation on tickets 🎟️✨
+
+Developed seamless ticket layouts integrating dynamic QR codes for fast scanning and verification.
+
+Made the code modular and reusable wherever needed. 🧩✅
+
+🚀 VERSION 32
+Centralized Database Access Created 🗄️🔑
+
+Developed a unified DB connection module for consistent and easy import across all Python programs.
+
+Simplified database handling and improved maintainability. 💻🔧
+
+💳 VERSION 33
+Introduced Advanced Payment via QR Code on Payment Gateway ⚡🛡️
+
+Integrated complex payment workflow involving three bank-side JSP programs:
+
+uselqr.jsp, qr_codeaccept.jsp, authorize_payment.jsp
+
+These communicate with our Flask backend via IP and port. 🌐🔌
+
+Created new transaction table under airlines DB to capture txn_id and validate payment status dynamically. 💾✔️
+
+Pending: Full ACID-compliant payment method processing under payment modules. 🔜🛠️
+
+🔁 VERSION 34
+Dynamic Fare Calculation from DB Implemented 📊💰
+
+Replaced static HTML fares with dynamic backend logic fetching from airline_class_quota_fares table.
+
+Fare calculation now smartly considers:
+
+Origin & Destination ✈️
+
+Travel Class & Quota 🎫
+
+Distance 🛣️
+
+Flight base fare adjusted by flight priority for speciality flights 🚀
+
+Timestamp auto-update added for auditing in airlines_users:
+
+sql
+ALTER TABLE airlines_users
+MODIFY COLUMN DOR TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+📧 VERSION 35
+User-Side Email System Launched for Ticket Booking & Cancellation 💌✅
+
+Sent professional, grammatically polished emails for both confirmed (CNF) and cancelled (CAN) bookings.
+
+Corrected ticket cancellation info wording on printed tickets for clarity and professionalism. 📝🎟️
+
+✉️ VERSION 36
+Enhanced Email Logic to Avoid Duplicate Sends on Refresh 🔄🚫
+
+Prevented repeated emails on accidental browser refresh during booking or cancellation.
+
+Fixed unknown error page on user ticket cancellation related to refunds.
+
+Positioned email dispatch before ticket_su and ticket_can_su methods in ticket_userdb.py and user_can_ticket2.py.
+
+Admin Side Improvements:
+
+Added extra email field in admin booking for capturing user emails. 📩
+
+Fetches & uses user email during admin cancellations for realistic communication. ✔️
+
+Overall: Nearly all application issues resolved; future updates will focus on minor fixes and optimizations. 🛠️🎉
+
+🛠️ VERSION 37
+Fixed User Ticket Journey History Display on Cancellations 📜❌
+
+Ensured cancelled tickets properly reflect in user journey history with clear status messages. ✅
+
+Skipping detailed notes on Version 37 to proceed to next significant update.
+
+🌟 VERSION 38
+Highly Dynamic Seat Allocation Based on Flight Number, Class, Journey Date & Flight Type 🪑🔥
+
+Introduced flight types (e.g., Boeing, Airbus) selectable by admin during flight creation, saved in flights table. 📋✈️
+
+Advanced seat allocation logic extended to respect flight type-specific seat layouts.
+
+Frontend restricts seat selection flow based on chosen flight type for accurate bookings. 🎯
+
+Modified airline_sitting table: added flight_type column for seat trigger logic consistency. 🗃️
+
+Print & Display:
+
+Tickets now show Flight Type info along with flight charges for transparency. 🎫💡
+
+Seat Availability Logic Improved:
+
+seats_avl.py updated for robust seat availability checks — correctly handling switched origins and destinations. 🔄🛋️
+
+Example:
+
+Flight AA12AA, Class: First, Total Seats: 12
+
+Origin: Hyderabad, Destination: New York, Date: 01/Aug/2025
+
+Booking status now accurately reflects seat availability—even if origin/destination are swapped.
+
+Technical Enhancements:
+
+Refined MySQL query logic in seat availability module for precision and error-free operation. 🔍💾
+
+Entire codebase polished and structured for maximum robustness and dynamic behavior. ✅🐍
+
+This version represents a major milestone with zero errors, seamless integrations, and enhanced user/admin experience! 🚀👏
+
+
+  -------------------------------------------- End of Changelog ----------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+🚀 Feature Developments
+Develop a comprehensive module to display all admin operations, including charges and flight types (flight type display is optional). 🧑💼💻
+
+Fetch flight types dynamically from the database tables during the admin’s flight addition process for seamless, flexible handling. 🛩️📊
+
+Manage and configure flight layouts using data from the seats_avl.py module linked with the flight layout database table. 🪑📅
+
+Implement and maintain accurate flight timings for departure and arrival schedules. ⏰✈️
+
+(Optional) Integrate the user-side payment gateway with payment_mode=ACID support to allow robust, transactional payment processing. 💳🔐
+
+
+
+
+
+

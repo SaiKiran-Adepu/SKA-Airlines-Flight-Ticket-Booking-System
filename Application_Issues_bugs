@@ -1,0 +1,369 @@
+⚠️ ISSUES & BUGS DURING SKA AIRLINES APPLICATION DEVELOPMENT 🛫🐞
+Issue 1: Journey Date vs Return Date 📅➡️🔙
+Problem: Return date must be after the journey start date.
+Status: Resolved ✅ with JavaScript validation ensuring the return date is always later than the journey date.
+
+Issue 2: Date Format Consistency 📅
+Problem: Date formats should appear as 12/Jul/2024 for consistency and clarity.
+Status: Fixed ✅ by enforcing date input and display formatting via JavaScript.
+
+Issue 3: Round Trip Discount 🎟️🔄
+Problem: When trip mode is Round Trip, a discount of 1% should apply on the total trip cost.
+Status: Resolved ✅ using JavaScript logic to automatically calculate and apply the discount.
+
+Issue 4: Automatic Airport Name Retrieval ✈️🏙️
+Problem: Airport names were hardcoded and not dynamically fetched.
+Status: Solved ✅ by fetching airport data from the database using Python (airport.py globally and respective routes.py modules for guest/admin).
+
+Issue 5: Realistic Ticket Layout & Seat Allocation 🎫🪑
+Problem: Seat assignment during booking was not automatic or realistic.
+Status: Fixed ✅ with backend Python code implementing automatic seat allocation at booking time.
+
+Issue 6: Reservation Data Transfer via Sessions 🔄📄
+Problem: Booking details were not preserved properly across multi-step forms.
+Status: Resolved ✅ by managing data flow through Flask sessions, maintaining state across booking steps.
+
+Issue 7: Dynamic Passenger Selection 👨👩👧👦➕
+Problem: Passengers couldn’t book tickets for multiple people simultaneously.
+Status: Fixed ✅ by introducing dynamic JavaScript forms allowing multiple passenger entries in one booking.
+
+Issue 8: Quota Reservation Discounts 🎖️💸
+Problem: Defence students discount (Rs 1000) not applied correctly, especially for round trips.
+Status: Resolved ✅ — Defence quota discount now applies Rs 1000 for one-way and Rs 2000 for round trips.
+
+Issue 9: Automatic Fare & Class Updates 💵⚙️
+Problem: Fare details (base fare, quota fare, class fare) did not auto-update when adding passengers.
+Status: Fixed ✅ with JavaScript dynamically recalculating and updating all fare components instantly.
+
+Issue 10: MySQL Trigger on airline_reservation Table 🔔🗃️
+Problem: Needed DB-level triggers to synchronize seat assignments with reservations.
+Status: Resolved ✅ through a MySQL trigger, updating the airline_sitting table and displaying all PNRs with passengers accordingly.
+
+Issue 11: Single PNR for Multiple Passengers 👥🎫
+Problem: Passengers booking together did not share the same PNR.
+Status: Fixed ✅ — multiple passengers now share one PNR with distinct seats during a single booking.
+
+Issue 12: Realistic Plane Seat Layouts 🛩️🪑
+Problem: Seat allocation was not class-based or reflecting realistic flight seating.
+Status: Resolved ✅ by Python code dynamically managing seat layout based on flight class selection.
+
+Issue 13: Ticket Download Instead of Printing 💾📄
+Problem: Printing tickets was inconvenient and non-digital.
+Status: Solved ✅ via an HTML template allowing users to download tickets to their devices instead of printing.
+
+Issue 14: Correct Round Trip Charge Calculation 💰🔁
+Problem: Charges were not doubling for round trips; quota discounts also miscalculated.
+Status: Fixed ✅ through JavaScript validation ensuring base fare doubles for round trip selections and discounts adjust accordingly.
+
+Issue 15: Auto-fetch User Name Using User Number 🆔➡️👤
+Problem: Admin had to manually look up user names after entering user numbers.
+Status: Resolved ✅ — When admin enters user number, the username is automatically fetched from the database dynamically (airline_users.py with proper routes to HTML). Also applied to admin’s user booking history views.
+
+Issue 16: User Number vs Name in Admin Audit 👤🔢
+Problem: Need dynamic display of user name when entering user number during admin audit or booking history review.
+Status: Resolved ✅ — Username now dynamically displays in the text box in admin ticket booking and user booking history audit.
+
+Issue 17: Mapping User Booking History with Admin PNR Enquiry 🎟️🔍
+Problem: Need to reduce redundant code by mapping user booking history to admin PNR enquiry based on user number input.
+Status: Done ✅ — Module developed to hold all user ticket bookings linked with PNR, accessible via admin enquiry for quick audit.
+
+Issue 18: Auto-Clear Journey & Return Dates via SQL Trigger or Query 🗓️⚙️
+Problem: Need to automatically clear journey and return dates after completion.
+Status: Business logic changed — Instead of deleting dates, jstatus is updated to "completed" once journey and return dates pass. ✅
+
+Issue 19: Auto-Use Bank Account Details on Ticket Cancellation 💳↩️
+Problem: Avoid asking user for bank account details again upon cancellation; refund should go automatically to the account used at booking.
+Status: Implemented ✅ — Added account number column in airline_reservation table and automated refund process to same account at cancellation.
+
+Issue 20: Fare Auto-Population in Guest/Index Ticket Booking Page 💸✨
+Problem: Fare was not auto-fetched with base fare in index ticket booking.
+Status: Resolved ✅ — Fare now auto-populates on the ticket booking page for guests and users.
+
+Issue 21: Combined Plane Schedule for Guest, User, and Admin 👥🛩️
+Problem: Separate plane schedule modules caused code duplication.
+Status: Fixed ✅ — Developed unified module combining guest, user, and admin plane schedules for efficient code maintenance.
+
+Issue 22: Ticket Cancellation Module for Admin & User with Refund 💸❌
+Problem: Need cancellation modules for both admin and user with automatic refund crediting.
+Status: Implemented ✅ — Both user and admin ticket cancellation with refund processing in place.
+
+Issue 23: Dynamic Flight Name Display on Plane Schedule by Flight Number 🛫📝
+Problem: Flight name should dynamically display when flight number is entered in scheduling.
+Status: Done ✅ — Flight names now fetch and display dynamically on input of flight number.
+
+Issue 24: Form Close Button Should Not Trigger Empty Popups ❌✖️
+Problem: Closing forms with buttons caused unwanted empty popup forms.
+Status: Fixed ✅ — Close buttons use correct type="button" and proper form attributes to avoid empty popups, plus UI fixes.
+
+Issue 25: Global PNR Status Common for Index & User Pages 🎫🌐
+Problem: Need common PNR status view usable by guest, user, and admin for downloading tickets and viewing bookings.
+Status: Developed ✅ — Shared module allows common access yet restricts downloads to respective users only.
+
+Issue 26: Add “New User? Please Register” Link on User Login Page 🔑🔗
+Problem: Login page lacked direct link to registration for new users.
+Status: Fixed ✅ — Hyperlink/button added redirecting new users directly to registration page.
+
+Issue 27: Capitalize Passenger Names Automatically ✍️🔠
+Problem: Passenger names were entered inconsistently with regards to case.
+Status: Resolved ✅ — Python code converting passenger names to uppercase before saving.
+
+Issue 28: Passenger Details Alert in Booking 🚨🛂
+Problem: Users/admin need to be cautioned to enter passenger details exactly as per government ID.
+Status: Fixed ✅ — Alert message implemented on booking page. Plans for master list integration for added data validation.
+
+Issue 29: Confirmation Popup on Ticket Cancellation ⚠️❓
+Problem: Users should confirm cancellation intent via alert popup.
+Status: Done ✅ — Confirmation alert implemented before processing cancellation.
+
+Issue 30: Combined User Journey History & Ticket Download Module 🎟️📜
+Problem: Required module to show user journey list with direct ticket download without entering PNR again.
+Status: Developed ✅ — Users access complete journey with ticket download options seamlessly.
+
+Issue 31: Separate Modules to Sort CNF, CAN & Complete Journey Tickets 📂✅❌
+Problem: Need modular separation for Confirmed (CNF), Cancelled (CAN), and full ticket journeys.
+Status: Completed ✅ — Separate modules created with clear logic for respective ticket statuses.
+
+Issue 32: User Sessions to Store Number, Name, Feedback, Mobile & Password Update 🔐🔄
+Problem: Data such as user number and name should be stored in session for easier retrieval and to enhance code maintainability.
+Status: Implemented ✅ — User sessions now hold essential data, accessed via Python backend to maintain high data integrity.
+
+Issue 33: Admin Side Ticket Cancellation Requires Extra User Account Handling 👨💼❌
+Problem: Admin ticket cancellation needs to capture and validate user account number properly.
+Status: Resolved ✅ — Admin side cancellation module enhanced with user account number retrieval and validation.
+
+Issue 34: Auto-Generate Fare Based on Distance (KM) ⛽💸
+Problem: Fare calculation should dynamically reflect distance between airports (e.g., Rs 12 per KM).
+Status: Implemented ✅ — SQL trigger created for automatic fare generation based on KM distance between origin and destination.
+
+Issue 35: Seat Allocation Trigger with Cancelled Seats Fix 🪑🔄
+Problem: Trigger logic not correctly handling cancelled seats (seats not properly freed/reassigned).
+Status: Fixed ✅ — Corrected trigger logic to handle seat availability accurately on cancellations.
+
+Issue 36: Cancelling Confirmed Tickets Fails for Multiple Passengers (>2) ❌👥
+Problem: Ticket cancellation fails when more than two passengers booked under same PNR.
+Status: Resolved ✅ — Fixed by replacing fetchone() with fetchall() in seat handling logic.
+
+Issue 37: Journey Status Should Be “In Progress” (IP) Until Ticket Cancelled 🔄👍
+Problem: Journey status not reflecting “In Progress” until ticket cancelation.
+Status: Implemented ✅ — Python code updated to set journey status to “IP” during booking lifecycle.
+
+Issue 38: Auto-Fetch Bank Account Number for Refunds 💳⏬
+Problem: Bank account used in booking should auto-fill in cancellation refund process.
+Status: Fixed ✅ — Implemented code to retrieve and use user’s bank account during refund.
+
+Issue 39: Match Transaction Scenarios With Banking Logic 🏦📊
+Problem: DB transaction records didn’t correctly reflect debit/credit flow for bookings and cancellations.
+Status: Fixed ✅ — Updated transaction entries so that booking debits user account & credits airline account, cancellation reverses credit/debit accordingly.
+
+Issue 40: Admin-Booked Ticket Cancellation Logic 🎫👨💼❌
+Problem: Tickets booked by admin must only be cancellable by admin (counter ticket cancellation), without involving user number fetching.
+Note: Admin retains power to cancel user-booked tickets.
+Status: Resolved ✅ — Removed user number requirement for admin-booked ticket cancellations to streamline process.
+
+Issue 41: Professional “All Rights Reserved” Footer Addition ©️®️
+Requirement: Add a consistent footer on every page displaying:
+SKA AIRLINES ALL RIGHTS RESERVED ©️ ®️
+Status: Implemented ✅ — Footer with copyright and registered mark added site-wide.
+
+Issue 42: Improve Code Reusability ♻️💻
+Goal: Create common reusable packages for HTML, including JS scripts and CSS, to avoid duplication and ease maintenance.
+Status: Completed ✅ — Modular includes implemented for reusable frontend assets.
+
+Issue 43: Seat Allocation Trigger Fix for Multiple Cancelled Seats 🪑🔄
+Problem: Trigger logic failed to reassigned cancelled seats when more than one seat is available for the same flight/class/journey.
+Example: For First Class with 12 seats, 2 cancelled seats were not reassigned correctly.
+Status: Fixed ✅ — Trigger logic corrected to allocate cancelled seats properly and in order.
+
+Issue 44: Phase 2 Development Module Summary 🚀✨
+SKA Airlines is building dynamic & modern features:
+
+🧾 QR Code on Ticket PDF: Fast airport check-in & digital verification (Generation and Base64 encoding done)
+
+📧 Email System / WhatsApp Notifications: Booking and cancellation updates
+
+💳 QR Code Payment Gateway (Simulated): Realistic payment simulation via QR (done)
+
+📊 Graphical Admin Dashboard (Optional): Visual insights for bookings, revenue, cancellations
+
+🪄 Advanced Seat Allocation by Flight Type: Flight types (Boeing, Airbus) with seat configs per class; auto seat range setup done
+
+🛠️ Common DB Configuration File: Centralized DB connection (db_config.py)
+
+🔁 Dynamic Fare Calculation from DB: Fare fetching and calculation done dynamically, avoiding static HTML fares
+
+🧮 Admin Fare Update & Visualization Page: Admin can update fares by class/quota/km with optional fare increase calculations
+
+🛜 Dynamic Domain/IP Configuration: Application accessible via domain instead of raw IP (done)
+
+Issue 45: QR Code on Ticket Implementation 🎟️🔳
+Requirement: Develop an importable Python module to generate QR codes containing ticket reservation details, embedded in ticket layout after booking.
+Status: Completed ✅ — QR code generation module implemented and integrated in tickets successfully.
+
+
+
+Issue 46: QR Code for User-Side Payment Gateway 💳🔳
+Requirement:
+
+Develop a dedicated QR code generator module that encodes transaction details like fare and bank URL.
+
+When the user scans the QR, it opens a bank authentication window for login and payment authorization.
+
+Upon successful payment, the bank backend notifies the ticketing system, triggering ticket generation and payment confirmation.
+
+Maintain a transaction ID (txn_id) tracked in the qr_payment_status table.
+
+Pass user’s bank account ID (acid) into the airline_reservation table for automated refunds on cancellations.
+
+Flow:
+ticket_user4.html (QR module) → uselqr.jsp (bank) → accept_qr_payment.jsp → authorised_payment.jsp → qr_payment_gateway.py → qr_payment_su.html → ticket_userdb.py → ticket_user_su.html
+
+Status: Debugging completed and issue resolved ✅.
+
+Issue 47: Email-Based Ticket Confirmation & Cancellation Notifications 📧✈️
+Requirement:
+
+Implement an email system that automatically sends booking or cancellation confirmations to users with ticket details (flight number, passenger name, class, journey date, etc.).
+
+Add an email_id column to the airline_users table to store user emails.
+
+Create a dedicated email module linked to user-side booking and cancellation processes.
+
+For admins, sending emails on ticket booking is optional but recommended.
+
+Status: Implemented and fully operational ✅.
+
+Issue 48: Centralized Database Handling & Security 🗄️🔐
+Requirement:
+
+Create centralized DB configuration for MySQL and Oracle to avoid exposing database credentials across multiple files/pages.
+
+Facilitate easy maintenance and improved security.
+
+Status: Successfully implemented ✅.
+
+Issue 49: Including Flight-Specific Charges in Fare Calculations 💵✈️
+Requirement:
+
+Include individual airline flight charges dynamically during booking fare calculation.
+
+Status: Completed and integrated successfully ✅.
+
+Issue 50: Dynamic Fare Calculation from Database Based on Class & Quota 🧮🎟️
+Requirement:
+
+Fetch fares dynamically from DB tables storing class fares and quota discounts (e.g., Defence discount).
+
+Allows admins to update fares in the DB without changing application code, enhancing business flexibility.
+
+Example: First class fare = 1500 ₹.
+
+Status: Fully implemented and tested ✅.
+
+Issue 51: Reflecting Bank Account ID in QR Payment Gateway Flow 💳🔁
+Requirement:
+
+Add ac_number column in the qr_payment_status table to hold user bank account info.
+
+After payment confirmation, insert the bank account ID into the corresponding record in the airline_reservation table for reconciliation and refund processing.
+
+This solves cancellation/refund issues when payment mode is QR code.
+
+Status: Logic corrected and issue resolved ✅.
+
+Issue 52: Email Delivery Error on Ticket Cancellation Confirmation ✉️❌
+Problem:
+
+Cancellation confirmation emails were failing due to errors in passenger list formatting (specifically, incorrect access like p['name']).
+
+The fix involved correctly fetching email and passenger details from the airline_users table for reliable email content.
+
+Status: Bug fixed and emails are now delivered successfully ✅.
+
+Issue 53: QR Code Missing in Ticket Cancellation Emails 🎟️✉️
+Problem: When a user cancels a confirmed ticket, the email sent does not include the QR code—only textual information is delivered.
+Root Cause: QR generation was implemented only for confirmation emails (email_cnf_can.py), not for cancellations.
+Resolution: Redesigned email module to include QR codes for both ticket confirmations and cancellations.
+Status: Done ✅ — QR code now generates correctly in cancellation emails.
+
+Issue 54: Duplicate Emails Sent on Browser Refresh 🌐🔄📧
+Problem: Refreshing the endpoint page causes the system to resend booking/cancellation emails again, causing duplicates.
+Fix: Placed email-sending logic before success methods in backend Python code for user and admin booking/cancellation routes, preventing resends on page refresh.
+Status: Resolved ✅.
+
+Issue 55: Error Pages on Browser Refresh after Confirmation 🌐❌
+Problem: Refreshing the confirmation pages after ticket generation causes error pages, particularly with cancellation endpoints for both user and admin sides.
+Fix: Adjusted flow so that database confirmation data is properly passed to success pages, preventing errors on refresh.
+Status: Fixed ✅.
+
+Issue 56: Add Email Column to airlines_reservation Table for Admin Use 📧🗄️
+Requirement: Store users’ email addresses in the reservations table to allow admins to send email notifications during ticket bookings.
+
+If user email is null, no email sent (neutral handling).
+Status: Implemented successfully ✅.
+
+Issue 57: Fetch User Email ID during Admin Ticket Cancellations ✉️⚙️
+Requirement: Retrieve stored email from airlines_reservation table to send cancellation notices when admin cancels tickets.
+Status: Implemented and working ✅.
+
+Issue 58: Insert User Email into Reservation Table during User Booking 📧🎟️
+Requirement: Store email in email_user column during user-side bookings for use during admin-side cancellation notifications.
+Benefits: Enables admins to notify users if admin cancels user-booked tickets, improving communication and trust.
+Status: Completed ✅.
+
+Issue 59: Dynamic Advanced Seat Allocation by Flight Details 🪑✈️
+Requirement: Implement dynamic seat allocation factoring in flight number, name, class, journey date, origin, destination, and flight type (e.g., Boeing seats allocation to Boeing flights).
+Current Status:
+
+Existing 3 scenarios had limitations; seats_avl.py restricts reservation seats at frontend.
+
+Old trigger allocates seats based on flight type but needs enhancement to handle larger seat configurations (i.e., Boeing 747 FC with 14 seats, etc.).
+Next Steps:
+
+Upgrade trigger logic to handle larger seat layouts per aircraft type.
+
+Add submodule in admin for selecting aircraft type while adding a flight, storing flight type in the flights table.
+
+Store flight_type also in airlines_sitting table for accurate seat availability tracking.
+
+Pass flight type info in tickets and emails (including QR codes) during reservation to ensure consistency.
+Outcome:
+
+A single, robust trigger plus frontend logic (seats_avl.py) enables seamless and accurate seat allocation while handling cancellations dynamically.
+Status: Fully implemented and all related issues resolved ✅.
+
+Issue 60: Display Flight Type & Flight Charge on Tickets ✈️💰
+Requirement: Add Flight Type and Flight Charge details visibly on the ticket, QR code, and email confirmations.
+Status: Fixed ✅ — Flight Type and Flight Charge now clearly displayed on tickets and included within QR codes and emails.
+
+Issue 61: Increase Seat Allocation Trigger for Largest Flight Layouts 💺✈️
+Requirement: Enhance the seat allocation database trigger to support the highest-capacity aircraft like Boeing 747, which have large seat layouts.
+Status: Completed ✅ — The trigger was successfully scaled to handle the largest layouts seamlessly. Impressive performance ensured! 💪🏻
+
+Issue 62: Add Exact Seat Layouts in seats_avl.py for Frontend Validation 🪑⚙️
+Requirement: Integrate precise seat layouts within the seats_avl.py module to validate seat availability and booking on the frontend, preventing overbooking or invalid selections.
+Status: Resolved ✅ — The program now validates seat layout accurately during booking.
+
+Issue 63: Add Flight Type Column in airlines_reservation Table ✈️📊
+Requirement: Add a new column in the airlines_reservation DB table to store the flight type, enabling more accurate data retrieval especially during ticket cancellation workflows.
+Status: Done ✅ — Flight Type column added and integrated successfully.
+
+Issue 64: Correct Display of Seat Availability with Origin-Destination Consideration 💺🌐
+Problem:
+When origin and destination are swapped (e.g., Delhi ↔ New York on flight AA12AA), the seat availability was incorrectly shown as the same for both directions.
+Requirement: Seat availability must reflect exact journey direction and other parameters like journey date, flight type, etc.
+Fix: Updated seats_avl.py to consider origin and destination properly during seat availability checks, giving accurate display of available seats.
+Status: Issue fixed ✅ — Seat availability now reflects exact journey data, ensuring correctness and user trust.
+
+Final Note:
+The entire app’s latest stable and corrected version is Version 38 🚀 — incorporating all these fixes and improvements.
+
+
+
+
+
+
+
+
+
+
+
