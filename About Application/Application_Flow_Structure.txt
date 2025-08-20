@@ -1,0 +1,63 @@
+airlines.py     <-- Main entry, initializes and registers all blueprints
+   │
+   ├── Admin Section
+   │   ├── admin_login_bp       <-- Login functions
+   │   ├── admin_logout_bp      <-- Logout logic
+   │   ├── admin_dashboard_bp   <-- HTML renderings (see below)
+   │   └── admin_bp             <-- Route connectors
+   │
+   │   admin_routes.py -----> Imports blueprints and submodules:
+   │     │
+   │     ├── new_flight_bp             --> new_flight.html
+   │     ├── add_airport_bp            --> add_airport.html
+   │     ├── add_fare_bp               --> add_fare.html
+   │     ├── change_fare_bp            --> change_fare.html
+   │     ├── ticket_admin_bp           --> ticket_admin.html, ticket_admin1.html, ...
+   │     ├── ticket_download_admin_bp  --> ticket_download_admin.html
+   │     ├── user_booking_history_bp   --> user_booking_history.html
+   │     ├── airplane_airports_bp      --> airline_airports_su.html
+   │     ├── admin_can_ticket_bp       --> admin_can_ticket.html, admin_can_ticket1.html, ...
+   │     ├── payment_gateway_tkt_can_admin_bp
+   │     ├── airline_fund_bp           --> airline_fund_su.html
+   │     └── (other submodules...)
+   │
+   ├── User Section
+   │   ├── user_login_bp
+   │   ├── user_logout_bp
+   │   ├── user_dashboard_bp
+   │   └── user_bp
+   │
+   │   user_routes.py -----> Handles:
+   │     │
+   │     ├── ticket_user_bp            --> ticket_user.html, ticket_user1.html, ...
+   │     ├── payment_gateway_bp        --> payment_gateway_su.html
+   │     ├── ticket_userdb_bp
+   │     ├── user_can_ticket_bp        --> user_can_ticket.html, user_can_ticket1.html, ...
+   │     ├── user_journey_history_bp   --> user_journey_history_su.html, ...
+   │     ├── user_feedback_bp          --> user_feedback.html, user_feedback_su.html
+   │     ├── user_update_mbl_num_bp    --> user_update_mbl_num.html, ...
+   │     ├── user_update_password_bp   --> user_update_password.html, ...
+   │     └── qr_payment_bp             --> qr_payment_su.html
+   │
+   ├── Guest Section
+   │   ├── guest_dashboard_bp
+   │   └── guest_bp
+   │
+   │   guest_routes.py -----> Handles:
+   │     │
+   │     ├── user_register_bp          --> user_register.html, register_success.html
+   │     ├── feedback_index_bp         --> feedback_index.html, feedback_index_su.html
+   │     ├── plane_schedule_bp         --> plane_schedule.html, plane_schedule_su.html
+   │     ├── pnr_index_bp              --> pnr_index.html, pnr_index_su.html
+   │     └── ticket_index_bp           --> ticket_index.html, ticket_index_su.html
+   │
+   │   guest_dashboard_bp: also maps routes directly to HTML
+   │     ├── airline_admins.html
+   │     ├── instructions.html
+   │     └── newsevents_index.html
+   │
+   └── Other Modules
+       ├── seat_avl_bp         --> seat_avl.html
+       ├── payment_qr_bp
+       └── (future modules...)
+

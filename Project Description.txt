@@ -1,0 +1,146 @@
+The SKA Flight Ticket Booking System
+
+Project Description
+
+Overview
+The SKA Flight Ticket Booking System is a comprehensive, web-based airline management application developed using the Flask framework in Python. This solution delivers a full-featured platform covering airline administration, user ticket booking, and guest interactions. The application is organized into three main modules—Admin, User, and Guest—each serving distinct roles and responsibilities. This modular design ensures clear separation of concerns, maintainability, and scalability as the project grows.
+
+Key Features & Modules
+1. Admin Module
+The Admin module manages airline operations through secure interfaces enabling administrators to:
+
+Flight Management: Add and schedule new flights, assign airplanes to routes, and manage flight details.
+
+Airport Management: Maintain airports information and add new airports.
+
+Fare Management: Define, modify, and update fare structures across various routes and flights.
+
+Ticketing: Oversee ticket administration including download and cancellation processes.
+
+PNR Enquiries & E-ticketing: Facilitate passenger name record lookups and e-ticket management.
+
+User Booking Records: Access comprehensive user booking histories and handle customer feedback.
+
+Additional Controls: Admin authentication, seat availability monitoring, payment gateway oversight, and notifications.
+
+2. User Module
+The User module empowers customers to interact with the system for their travel needs by providing:
+
+Authentication: Secure user registration, login, and logout functionalities.
+
+Ticket Booking: Search flights, book tickets, and cancel if needed.
+
+Payment Processing: Seamless integration with payment gateways including QR-based payments.
+
+Profile Management: Update personal information and access journey history.
+
+Feedback: Submit feedback on airline services and user experience.
+
+3. Guest Module
+The Guest module caters to non-registered users with features that include:
+
+Flight & Schedule Viewing: Browse available flights and schedules.
+
+PNR Status Checking: Access status information without requiring login.
+
+User Registration: Onboard new users into the system.
+
+Feedback & Events: View airline news, events, and submit feedback anonymously.
+
+Project Structure
+admin/ — Admin business logic and route handlers.
+
+user/ — User-specific backend logic for booking and profile management.
+
+guest/ — Routes and business logic for public guest users.
+
+templates/ — Jinja2 HTML templates categorized by user-role and pages.
+
+routes/ — General route setups such as payment integrations.
+
+static/ — Static site assets (images, CSS, JS).
+
+__pycache__/ — Python bytecode cache files for performance.
+
+Each module employs Flask Blueprints, promoting reusability, modularity, and clear route segregation.
+
+Required Python Packages & Installation
+To run this project, install the necessary Python dependencies:
+
+bash
+pip install flask flask-session flask-blueprint flask-wtf requests pymysql sqlalchemy
+Note: Additional packages may be required based on environment specifics and further integrations.
+
+Running the Application
+Database Configuration:
+
+Update your database credentials in routes/db_config.py or relevant config files.
+
+Initialize your database and perform schema migrations if applicable.
+
+Start the Flask App:
+
+bash
+python airlines.py
+Access the Application:
+
+Open a web browser and go to:
+
+text
+http://localhost:5000
+Deployment Guide
+Prerequisites
+Python 3.8+
+
+MySQL or compatible database
+
+Web server (e.g., Nginx)
+
+WSGI server (e.g., Gunicorn)
+
+Steps
+Clone the repository and create a virtual environment:
+
+bash
+git clone <repository_url>
+cd FlightTicketBookingSystem
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
+Configure your database and application settings:
+
+Edit configuration files (database, session, secret keys).
+
+Run the app with Gunicorn for production readiness:
+
+bash
+gunicorn -w 4 -b 0.0.0.0:5000 airlines:app
+Configure Nginx as a reverse proxy to forward requests to Gunicorn.
+
+Secure your app with HTTPS (using Certbot or similar tools).
+
+Monitor logs and adjust resources as needed.
+
+Environment Variables and Path Settings (Optional)
+For running Tomcat server with MySQL and Oracle SQL connectors, place appropriate JAR files (ojdbc14.jar or ojdbc11.jar, MySQL connector) inside Tomcat’s lib directory.
+
+Set environment variables:
+
+text
+CATALINA_HOME=D:\Apache Software Foundation\Tomcat 10.1
+JAVA_HOME=C:\Program Files\Java
+CLASSPATH=D:\Apache Software Foundation\Tomcat 10.1\lib\servlet-api.jar;D:\Apache Software Foundation\Tomcat 10.1\lib
+PATH=C:\Program Files\Java\jdk-22\bin
+For Python to connect MySQL:
+
+bash
+pip install mysql-connector-python
+For Oracle DB:
+
+Check Oracle client version:
+
+bash
+sqlplus -v
+pip install cx_Oracle
+Summary
+The SKA Flight Ticket Booking System delivers a powerful, scalable, and modular airline booking platform built on Flask. It integrates key functionalities for airline admins, users, and guests in a seamless and intuitive manner, fostering efficient flight management, booking, and customer service operations.
