@@ -354,8 +354,31 @@ Requirement: Seat availability must reflect exact journey direction and other pa
 Fix: Updated seats_avl.py to consider origin and destination properly during seat availability checks, giving accurate display of available seats.
 Status: Issue fixed ✅ — Seat availability now reflects exact journey data, ensuring correctness and user trust.
 
+Issue 65: The Tickets Will be Displaying still the Date is out ✈️📊
+Requirement: Restrict the Displaying the past user journey date by using this Query
+SELECT * FROM airline_reservation WHERE ausr = %s AND status='CNF' AND jstatus='IP' AND STR_TO_DATE(jd, '%d/%b/%Y') >= CURDATE() ORDER BY PNR DESC, (uno,)
+Status: Done ✅ — Successfully Closed the issue.
+
+
+Issue 66:Dynamic Fetching the seats allocation no of seats to the seats_avl.py with the db table 
+Requirement: Restricted the availability seats are now fetches from the db table aircraft_seats_layout table
+and the if the admin as to update the details of the seats developers developing the module at html
+Status: Done ✅ — Successfully Closed the issue.
+
+Issue 67: Need to Display the Flight class and quota fares
+Requirement: Need to display the fare deatails of the flight class and quota charges 
+here we need to just accessing the backend db table by passing the URL of the db table with readonly credentials of the admin
+CREATE USER 'airline_admin'@'localhost' IDENTIFIED BY 'airlineadmin';
+GRANT SELECT ON airline.* TO 'airline_admin'@'localhost';
+FLUSH PRIVILEGES;
+For the perticular table to manage the seats in the flight by flight type used the Query
+GRANT SELECT, INSERT, UPDATE, DELETE ON airline.my_table TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+Delete is the optional if anything will not handle by this then admin of the airlines need to contact the Database developer MYSQL Admin login from there 
+we can do something
+
 Final Note:
-The entire app’s latest stable and corrected version is Version 38 🚀 — incorporating all these fixes and improvements.
+The entire apps latest stable and corrected version is Version 38 🚀 — incorporating all these fixes and improvements.
 
 
 

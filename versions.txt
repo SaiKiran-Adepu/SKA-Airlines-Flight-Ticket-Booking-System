@@ -519,6 +519,7 @@ Timestamp auto-update added for auditing in airlines_users:
 sql
 ALTER TABLE airlines_users
 MODIFY COLUMN DOR TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
 📧 VERSION 35
 User-Side Email System Launched for Ticket Booking & Cancellation 💌✅
 
@@ -596,7 +597,7 @@ Develop a comprehensive module to display all admin operations, including charge
 
 Fetch flight types dynamically from the database tables during the admin’s flight addition process for seamless, flexible handling. 🛩️📊
 
-Manage and configure flight layouts using data from the seats_avl.py module linked with the flight layout database table. 🪑📅
+Manage and configure flight layouts using data from the seats_avl.py module linked with the flight layout database table. 🪑📅 Done Version 39 and 40 But no dynamic admin updates instead admin update the seats at backend MySQL Db directly
 
 Implement and maintain accurate flight timings for departure and arrival schedules. ⏰✈️
 
