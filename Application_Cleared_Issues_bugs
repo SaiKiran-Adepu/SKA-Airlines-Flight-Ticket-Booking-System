@@ -354,39 +354,122 @@ Requirement: Seat availability must reflect exact journey direction and other pa
 Fix: Updated seats_avl.py to consider origin and destination properly during seat availability checks, giving accurate display of available seats.
 Status: Issue fixed ✅ — Seat availability now reflects exact journey data, ensuring correctness and user trust.
 
-Issue 65: The Tickets Will be Displaying still the Date is out ✈️📊
-Requirement: Restrict the Displaying the past user journey date by using this Query
-SELECT * FROM airline_reservation WHERE ausr = %s AND status='CNF' AND jstatus='IP' AND STR_TO_DATE(jd, '%d/%b/%Y') >= CURDATE() ORDER BY PNR DESC, (uno,)
-Status: Done ✅ — Successfully Closed the issue.
+🐞 Issue 65: Tickets Displaying Past Journey Dates ✈️📅
+Requirement:
+Restrict displaying past journey dates in user ticket history using the query:
 
+sql
+SELECT * FROM airline_reservation 
+WHERE ausr = %s AND status='CNF' AND jstatus='IP' 
+AND STR_TO_DATE(jd, '%d/%b/%Y') >= CURDATE() 
+ORDER BY PNR DESC, (uno,)
+Status: Done ✅ — Successfully resolved the issue. Past journey tickets are no longer displayed.
 
-Issue 66:Dynamic Fetching the seats allocation no of seats to the seats_avl.py with the db table 
-Requirement: Restricted the availability seats are now fetches from the db table aircraft_seats_layout table
-and the if the admin as to update the details of the seats developers developing the module at html
-Status: Done ✅ — Successfully Closed the issue.
+🐞 Issue 66: Dynamic Seat Allocation Fetching in seats_avl.py 💺🔄
+Requirement:
+Fetch available seats dynamically from the database table aircraft_seats_layout.
+Admins will be able to update seat details via a frontend HTML module under development.
 
-Issue 67: Need to Display the Flight class and quota fares
-Requirement: Need to display the fare deatails of the flight class and quota charges 
-here we need to just accessing the backend db table by passing the URL of the db table with readonly credentials of the admin
+Status: Done ✅ — Dynamic seat availability fetching implemented and working smoothly.
+
+🐞 Issue 67: Display Flight Class and Quota Fares 💰✈️
+Requirement:
+Display fare details including flight class and quota charges by accessing backend database table with secure, read-only admin credentials. Database user creation example:
+
+sql
 CREATE USER 'airline_admin'@'localhost' IDENTIFIED BY 'airlineadmin';
 GRANT SELECT ON airline.* TO 'airline_admin'@'localhost';
 FLUSH PRIVILEGES;
-For the perticular table to manage the seats in the flight by flight type used the Query
+For seat management by flight type, the following privileges are required:
+
+sql
 GRANT SELECT, INSERT, UPDATE, DELETE ON airline.my_table TO 'admin'@'localhost';
 FLUSH PRIVILEGES;
+(Note: DELETE permission is optional. If issues arise, airline admin should coordinate with the MySQL database developer/admin.)
+
+Status: Ongoing — Database permissions configured to securely manage fare and seat data.
+
 Delete is the optional if anything will not handle by this then admin of the airlines need to contact the Database developer MYSQL Admin login from there 
 we can do something
 
+🐞 Issue 68: QR Code on Payment Gateway Editable via HTML Inspect 🪲
+There was a major bug where the QR code on the payment gateway could be manipulated by editing the HTML elements through Inspect Element.
+For example, the total fare displayed as Rs. 12,000/- 💰 could be changed to Rs. 10/- by tampering with the HTML, breaking payment security. 🔓❌
+
+🔒 Fix Implemented: Secure Server-Side QR Code Generation Using Sessions
+Instead of generating QR code values from editable frontend HTML/JS, all sensitive values come directly from backend sessions:
+
+python
+txn_id = session.get('txn_id')
+total_fare = session.get('total_fare')
+trm = session.get('trm', 'Db SKA-AIRLINES')
+if not txn_id or not total_fare:
+    abort(400, "Invalid session or missing transaction")
+
+ip_address = get_local_ip()
+
+# Secure QR generation with server-side values only
+bank_url = f"http://{ip_address}:8181/bank/uselqr.jsp?amount={total_fare}&mode={trm}&txn_id={txn_id}"
+
+img = qrcode.make(bank_url)
+buffer = io.BytesIO()
+img.save(buffer, format='PNG')
+buffer.seek(0)
+return send_file(buffer, mimetype='image/png')
+Simplified flow in routes.py:
+
+python
+@user_dashboard_bp.route('/ticket_user4', methods=['GET', 'POST'])
+@login_required
+def ticket_user4():
+    step4_data = session.get('step4_data', {})
+    combined_data1 = {**step4_data}
+    txn_id = str(uuid.uuid4())[:8]
+    total_fare = combined_data1.get("total_fare1")  # safer than dot attr
+    trm = "Db SKA-AIRLINES"
+
+    # Store securely in session
+    session['txn_id'] = txn_id
+    session['total_fare'] = total_fare
+    session['trm'] = trm
+
+    return render_template('user/ticket_user4.html', txn_id=txn_id, combined_data1=combined_data1)
+In payment_gateway_Qr.py, the QR is generated using session values only, ensuring security.
+
+Backend trusts only session data, so end users cannot modify QR code contents via Inspect Element. 🛡️✅
+
+⚠️ Summary of Critical Security Fix
+Payment QR generation moved from insecure frontend (HTML/JS) to secure backend sessions.
+
+Users cannot tamper with QR values by inspecting or editing HTML.
+
+Payment integrity and transaction safety fully restored.
+
+Payment status polling (check_payment_status) continues to work smoothly using secure txn_id. 🔄💳
+
+
+🐞 Issue 69: Tickets Displaying Past Journey Dates ✈️📅
+Requirement:
+Restrict displaying past journey dates in user ticket history using the following query:
+
+sql
+SELECT * FROM airline_reservation 
+WHERE ausr = %s AND status='CNF' AND jstatus='IP' 
+AND STR_TO_DATE(jd, '%d/%b/%Y') > CURDATE() 
+ORDER BY PNR DESC, (uno,)
+Status: Done ✅ — Successfully resolved the issue. Past journey tickets are no longer displayed in the users ticket history.
+
+Issue 70: Add Hyperlink for Ticket Cancellation Redirect 🔗🛫
+When users want to cancel a ticket, display a message like:
+To view, print, or download your ticket, please use My Journey History, where you can find, print, or view your confirmed tickets.
+
+🔗 To View Your Confirmed Tickets:
+🖨️ / 👀 [View/Print Confirmed Tickets]
+
+Issue Resolved: ✅
+A hyperlink was added to smoothly navigate users to their journey history for ticket printing or downloading.
+
+
 Final Note:
-The entire apps latest stable and corrected version is Version 38 🚀 — incorporating all these fixes and improvements.
-
-
-
-
-
-
-
-
-
-
+The entire apps latest stable and corrected version is Version 41 🚀 — incorporating all these fixes and improvements.
 

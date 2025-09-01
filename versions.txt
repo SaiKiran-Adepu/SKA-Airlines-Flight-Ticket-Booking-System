@@ -587,6 +587,55 @@ Entire codebase polished and structured for maximum robustness and dynamic behav
 This version represents a major milestone with zero errors, seamless integrations, and enhanced user/admin experience! 🚀👏
 
 
+🆕 Version 39 & 40 Updates
+🚫 Journey Date is Today—No Cancellation Allowed
+Tickets with a journey date matching today’s date will not be displayed for cancellation and cannot be cancelled.
+
+📑 Note:
+To view, print, or download your ticket, please use My Journey History where you’ll find and print or view your confirmed tickets.
+
+🔗 To View Your Confirmed Tickets:
+🖨️/👀 View/Print Confirmed Tickets
+
+💺 Dynamic Seat Availability
+Seats are now dynamically checked and displayed in real-time from the database for accuracy during booking and management.
+
+🛠️ Enhanced Admin Functionalities
+
+Admins can now view and manage flight seats layouts dynamically based on flight type for future flights.
+
+✈️ Admin access lets you log into the backend database to change settings like flight seats, airports, class fares, flight fares, and more—admin-only features for enhanced control!
+
+
+🆕 Version 41 Update
+⚠️ Critical Security Fix at Payment Gateway
+Previously, the payment gateway QR code (UPI/Pay QR) was generated on the frontend (HTML/JS).
+This allowed anyone to open Inspect Element → Edit QR value → Pay to their own account — breaking payment integrity. 🔓❌
+
+🔒 Fix Implemented:
+Now, sessions securely store important payment data like total fare, txn_id, transaction mode on the backend.
+The QR code is generated server-side with these session values, so it cannot be tampered with via frontend inspection.
+
+✅ Secure Payment Flow:
+
+When the user reaches the payment page, backend saves total_fare, txn_id, and trm in session/DB.
+
+Frontend requests /generate_payment_qr with no sensitive parameters.
+
+Server builds and returns a secure QR as an image.
+
+Even if a user edits HTML, the QR is always generated from backend session data, not from the frontend input.
+
+⚡ Benefits:
+
+Users cannot modify QR code via Inspect Element.
+
+Payment integrity is fully protected.
+
+Your payment status polling (check_payment_status) continues to work smoothly with secure txn_id.
+
+
+
   -------------------------------------------- End of Changelog ----------------------------------------------------------------------
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
