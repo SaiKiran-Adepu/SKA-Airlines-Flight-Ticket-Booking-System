@@ -660,24 +660,43 @@ Register Module
 Major enhancement — flight types like Boeing 777, 747, Airbus A320, Domestic, etc., are now retrieved dynamically from the flight_types database table instead of being hardcoded in HTML.
 This improves the admin page experience when adding new flights and cleans up frontend code significantly.
 
+
+
+Version 43
+
+⏱️ Added time management for flights operating between origin and destination, with fly time tracked in hours.
+
+🛠️ Debugged the code and introduced a new flight_legs table to store departure, arrival timings, and fly duration.
+
+⚡ Included 3 automatic triggers in flight_legs to handle operations like maintaining leg_sequence and calculating fly_time.
+
+📅 Updated airline_reservation table with new columns to hold arrival_date, arrival_time, and fly_time.
+
+🔄 Modified the necessary code for full dynamic behavior, checked issues, and corrected them.
+
+🗂️ Added a new program guest/flight_date_hours.py that automatically adjusts the arrival date if a flight departs late (e.g., departs at 20:00 and arrives next day at 10:00).
+
+🚀 Streamlined the flow across all modules so the entire application process runs smoothly without issues.
+
+
 Overall, this version is more enhanced and advanced! 🎉✨
 
 
 
-  -------------------------------------------- End of Changelog ----------------------------------------------------------------------
+  --------------------------------------------- End of Changelog -----------------------------------------------------------
 
----------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 
 
 🚀 Feature Developments
 🧑‍💼💻 Developed a comprehensive admin module to display all operations, including charges and flight types (flight type display is optional).
 
-🛩️📊 Flight types are now dynamically fetched from database tables during the admin’s flight addition process, enabling seamless and flexible handling. (Implemented in Version 42)
+🛩️📊 Flight types are now dynamically fetched from database tables during the admin’s flight addition process, enabling seamless and flexible handling. (Implemented in Version 43)
 
 🪑📅 Managed and configured flight layouts using data from the seats_avl.py module linked with the flight layout database table. (Implemented in Versions 39 & 40)
 ⚠️ Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI yet.
 
-⏰✈️ Implemented and maintained accurate flight timings for departure and arrival schedules.
+⏰✈️ Implemented and maintained accurate flight timings for departure and arrival schedules Done in Version 43.
 
 💳🔐 (Optional) Integrated user-side payment gateway supporting payment_mode=ACID for robust, transactional payment processing.
 

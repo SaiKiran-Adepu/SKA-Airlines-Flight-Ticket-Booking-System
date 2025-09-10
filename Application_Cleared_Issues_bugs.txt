@@ -527,6 +527,88 @@ If any required field is missed, the admin is immediately notified to fill it pr
 ✅ Status: Issue resolved — Admin cannot submit incomplete flight details without selecting essential flight class and quota.
 
 
+Issue 74: Time Module — Departure & Arrival Times Not Inserted ⏰✈️
+Problem:
+While developing the time module, the departure time and arrival time were not being inserted into the database table. ⚠️
+
+Reason:
+Needed to add extra database columns for jd (departure time), arrival time, and flytime to store these values. 🗂️⏳
+
+Status:
+✅ Issue cleared — Added the necessary columns and data now inserts correctly!
+
+
+Issue 75: Fly Time Not Reflecting with Departure & Arrival Times ⏰✈️🕒
+Problem:
+The flight departure time and arrival time were not reflecting the correct fly time from the flight_legs table. ⚠️
+
+Reason:
+Added the fly_time field, which is now correctly calculated and displayed based on the flight's departure and arrival times. 🔧🗂️
+
+Status:
+✅ Issue resolved — Fly time is now accurately synced with the departure and arrival times!
+
+
+Issue 76: Arrival Date Not Updating for Overnight Flights 🌙✈️📅
+Problem:
+When a flight departs at night (e.g., 9 PM) and arrives the next morning (e.g., 9 AM), the arrival date was not changing—it remained on the previous day. ⚠️
+
+Reason:
+The flight time was not correctly considering the transition to the next day.
+🛠️ To fix this, an extra program flight_date_hours.py was added in the guest folder to properly handle date and time calculations.
+
+Status:
+✅ Issue resolved — The arrival date now updates correctly to the next day for overnight flights!
+
+
+Issue 77: Departure Date Not Displaying in Ticket Booking Steps 📅✈️
+Problem:
+The departure date was not appearing during the next steps of ticket booking. ⚠️
+
+Reason:
+The session variable for departure date was missing, causing it not to carry forward between booking steps. ⚡🔄
+
+Fix:
+✅ Session management was updated so the departure date persists until the ticket is fully booked, ensuring a seamless user experience and smooth UI flow!
+
+Issue 78: Reservation Table Not Capturing Arrival & Departure Times 🎟️⏰
+Problem:
+The reservation side table was not storing arrival and departure times. ⚠️
+
+Reason:
+The relevant fields were missing due to an incorrect or missing table index in the hidden table setup. 🗂️❌
+
+Status:
+✅ Issue fixed — Corrected the table index, and now arrival and departure times are properly captured in the reservation table!
+
+
+Issue 79: Email Not Sending for Ticket Booking and Cancellation 📧❌
+Problem:
+Emails were not being sent on both user and admin sides during ticket booking and cancellation. ⚠️
+
+Reason:
+Required parameters were not being passed correctly in the email sending functions. 📤🛑
+
+Status:
+✅ Issue fixed! Emails are now sent properly when tickets are booked or cancelled.
+Additional details like departure at origin, arrival time, and fly time have been included in all relevant modules:
+
+Admin side: Ticket booking, PNR audit
+
+User side: Ticket booking, ticket cancellation, ticket download, journey history (confirmed, cancelled, and total)
+
+
+ Issue 80: Spelling Mistake - "Depature" Corrected to "Departure" ✏️✔️
+Problem:
+The word “Depature” was misspelled instead of “Departure”.
+This typo occurred in both the admin side ticket booking and the email program, causing inconsistencies. ❌📝
+
+Status:
+✅ Corrected the spelling to “Departure” in the admin side and email modules for accuracy and professionalism.
+
+
+
+
 Final Note:
-The entire apps latest stable and corrected version is Version 42 🚀 — incorporating all these fixes and improvements.
+The entire apps latest stable and corrected version is Version 43 🚀 — incorporating all these fixes and improvements.
 
