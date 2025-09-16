@@ -598,7 +598,7 @@ Admin side: Ticket booking, PNR audit
 User side: Ticket booking, ticket cancellation, ticket download, journey history (confirmed, cancelled, and total)
 
 
- Issue 80: Spelling Mistake - "Depature" Corrected to "Departure" ✏️✔️
+Issue 80: Spelling Mistake - "Depature" Corrected to "Departure" ✏️✔️
 Problem:
 The word “Depature” was misspelled instead of “Departure”.
 This typo occurred in both the admin side ticket booking and the email program, causing inconsistencies. ❌📝
@@ -607,8 +607,133 @@ Status:
 ✅ Corrected the spelling to “Departure” in the admin side and email modules for accuracy and professionalism.
 
 
+Issue 81: Develop Program for Airport Pairs Handling on New Flight Addition ✈️🛫
+Problem:
+When an admin adds a new flight to the database, selecting multiple airports, the system needs to:
+
+Insert the flight group into the flights table.
+
+Split the selected airports into separate airport pairs.
+
+Insert these pairs into both flight_legs and airplane_fare tables without duplications.
+
+Reason:
+Ensures consistent data entry where pairs of airports represent flight legs and fare routes properly, avoiding duplicates and preserving data integrity.
+
+Fix Implemented:
+
+Backend Python program at admin side splits the comma-separated airport list, forming pairs:
+
+python
+airports_list = [a.strip() for a in selected_airports.split(',') if a.strip()]
+for i in range(len(airports_list)):
+    for j in range(i+1, len(airports_list)):
+        origin = airports_list[i]
+        dest = airports_list[j]
+        
+        # Insert into flight_legs
+        leg_query = """
+            INSERT INTO flight_legs (flight_number, origin_airport, destination_airport, departure_time, arrival_time)
+            VALUES (%s, %s, %s, '00:00:00', '00:00:00')
+        """
+        cursor.execute(leg_query, (flight_number, origin, dest))
+
+        # Insert into airplane_fare avoiding duplicates
+        origin, dest = sorted([origin, dest])  # Alphabetical order to prevent duplication
+        route_str = f"{origin},{dest}"
+
+        fare_query = """
+            INSERT INTO airplane_fare (Airport, Fare, KM, AAD)
+            VALUES (%s, NULL, NULL, %s)
+            ON DUPLICATE KEY UPDATE Airport = Airport
+        """
+        cursor.execute(fare_query, (route_str, fadm))
+The program ignores duplicate airport pairs, ensuring no redundant entries.
+
+The flight_legs table uses flight number as a unique key to prevent duplicate flights.
+
+⚙️ Additional Notes:
+
+After adding flights, admins should manually enter KM in the airplane_fare table.
+
+Fare is auto-calculated as KM × 12 (automatically generated based on distance).
+
+Admins must update flight origin and destination times with day codes in the flight_legs table if times exceed 24 hours.
+
+Fly time is automatically calculated based on these times.
+
+
+
+Issue 82: Develop Trigger to Calculate Fly Time and Date Change on flight_legs Table ⏰✈️📅
+Problem:
+Need to automatically calculate fly time (duration) and handle date changes in the flight_legs table to avoid repeated calculations in Python code.
+Example: If a flight departs at 5:00 PM and arrives the next morning at 10:00 AM, the arrival date must correctly advance to the next day. ⚠️
+
+Reason:
+Centralizing calculation in a database trigger improves efficiency and consistency, preventing issues with incorrect date calculations from Python side.
+
+Status:
+✅ Fixed with a database trigger that calculates fly_duration between departure and arrival times.
+
+✨ Additionally, a Python program named flight_date_hours.py was developed in the Guest folder to maintain accurate flight times and handle date transitions dynamically based on flight schedules.
+This ensures the arrival date correctly updates to the next day when required.
+
+
+Issue 83: Develop Module to Display Flight Departure and Arrival Times in Plane Schedule 🛫⏰
+Problem:
+Need to display flight departure time at origin and arrival time at destination in the plane schedule results, providing clear timing details alongside flight information.
+
+Reason:
+This enhancement will show users the exact timings for flights, including flight number, origin, destination, class, available quota, and more for better clarity.
+
+Status:
+✅ Fixed!
+Added the module in plane_schedule.py that fetches and displays:
+
+Flight timings for origin and destination
+
+Flight number, airport, flight name, class, quota availability from the flights table
+
+Corresponding times and fly time from the flight_legs table
+
+
+Issue 84: Flight Times Not Retrieving for Multi-Leg Flights ⏰✈️🛬
+Problem:
+When a flight has multiple legs, the system was not displaying all origins and destinations along with their respective times and fly time. ⚠️
+
+Reason:
+Missing retrieval of all leg details caused incomplete information display in the plane schedule.
+
+Status:
+✅ Fixed in the plane_schedule.py Python code by:
+
+Adding cursor.fetchall() to fetch all flight legs data.
+
+Adding {% if time_data %} condition in the template to display the complete information.
+
+Now, all details including flight number, airports, timings, and fly time for each leg are properly displayed.
+
+
+
+Key Issues Summary (74-84)
+⏰ Fixed missing departure/arrival time inserts and reflections.
+
+🌙 Arrival date updates correctly for overnight flights.
+
+💾 Fixed session handling so departure date persists through booking steps.
+
+📧 Email notifications fixed to send on booking/cancellation with full details.
+
+✏️ Typo “Depature” corrected to “Departure”.
+
+🛫 Robust airport pair splitting on flight add, preventing duplicates in flight_legs and airplane_fare tables.
+
+🔄 Added trigger and python program for automatic fly time calculation and date rollover.
+
+🕒 Multi-leg flight timings fully displayed after fixing fetchall and template logic.
+
 
 
 Final Note:
-The entire apps latest stable and corrected version is Version 43 🚀 — incorporating all these fixes and improvements.
+The entire apps latest stable and corrected version is Version 44 🚀 — incorporating all these fixes and improvements.
 

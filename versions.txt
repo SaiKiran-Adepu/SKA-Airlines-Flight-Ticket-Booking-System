@@ -679,6 +679,38 @@ Version 43
 🚀 Streamlined the flow across all modules so the entire application process runs smoothly without issues.
 
 
+
+🚀 Version 44 Highlights
+🛫 Admin Flight Addition & Airport Pair Splitting:
+When an admin adds a new flight to the airline DB, selected airports are now automatically split into pairs and inserted into the airplane_fare and flight_legs tables.
+➡️ Robust airport pair splitting and duplicate prevention for both tables.
+
+💻🗂️ Manual Fare and Distance Entry:
+After flight addition, admins log in to the MySQL backend to manually check the tables and enter KM distance.
+
+💰 Fare is auto-calculated with a trigger as KM × 12 per route!
+
+⏰👨‍✈️ Accurate Departure & Arrival Times:
+
+Fixed missing departure/arrival time entries and reflections.
+
+🌙 Arrival date now updates correctly for overnight flights—improved accuracy!
+
+🔒 Controlled Database Access:
+Limited access granted to airline_admins for DB table control, allowing official fare adjustments and admin actions.
+
+🧮 SQL Query Safeguards:
+In admin new_flight.py, added logic to avoid duplicate inserts into the airplane_fare table—existing airport pairs are skipped.
+
+📋🛠️ Admin Instructions & Change Management:
+Provided updated instructions to guide admins through new processes and project changes.
+
+🕒🔍 Flight Timings Submodule:
+Flight search now displays precise timings at origin (Departure) and destination (Arrival), with correct date handling if the flight crosses into the next day.
+
+Compared to previous versions, this release is more dynamic, efficient, and powerful! ⚡🔥
+
+
 Overall, this version is more enhanced and advanced! 🎉✨
 
 
@@ -687,20 +719,17 @@ Overall, this version is more enhanced and advanced! 🎉✨
 
 -------------------------------------------------------------------------------------------------------------------------------
 
-
 🚀 Feature Developments
-🧑‍💼💻 Developed a comprehensive admin module to display all operations, including charges and flight types (flight type display is optional).
+🧑‍💼💻 Developed a comprehensive admin module to display all operations, including charges and flight types (flight type display is optional) Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI yet(Dynamic UI is not required Optional).
 
 🛩️📊 Flight types are now dynamically fetched from database tables during the admin’s flight addition process, enabling seamless and flexible handling. (Implemented in Version 43)
 
 🪑📅 Managed and configured flight layouts using data from the seats_avl.py module linked with the flight layout database table. (Implemented in Versions 39 & 40)
-⚠️ Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI yet.
+⚠️ Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI yet(Dynamic UI no need).
 
-⏰✈️ Implemented and maintained accurate flight timings for departure and arrival schedules Done in Version 43.
+⏰✈️ Implemented and maintained accurate flight timings for departure and arrival schedules Done in Version 43&44.
 
 💳🔐 (Optional) Integrated user-side payment gateway supporting payment_mode=ACID for robust, transactional payment processing.
-
-
 
 
 

@@ -142,5 +142,17 @@ Check Oracle client version:
 bash
 sqlplus -v
 pip install cx_Oracle
+
+Additional Installations 
+
+pip install qrcode[pil]           # QR Code generation
+pip install Flask flask-mail      # Email sending
+pip install Flask-Session         # Session management
+pip install reportlab             # PDF generation
+pip install mysql-connector-python
+pip install mysql-connector-python  # MySQL database connector
+
+
+
 Summary
 The SKA Flight Ticket Booking System delivers a powerful, scalable, and modular airline booking platform built on Flask. It integrates key functionalities for airline admins, users, and guests in a seamless and intuitive manner, fostering efficient flight management, booking, and customer service operations.
