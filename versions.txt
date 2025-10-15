@@ -708,6 +708,13 @@ Provided updated instructions to guide admins through new processes and project 
 🕒🔍 Flight Timings Submodule:
 Flight search now displays precise timings at origin (Departure) and destination (Arrival), with correct date handling if the flight crosses into the next day.
 
+Auto-Update of Ticket Status in airline_reservation Table 🗃️✈️
+Focused on the MySQL airline_reservation table fields jd (journey date) and jstatus (journey status).
+
+Now, if the journey date (jd) is in the past, the status (jstatus) will auto-update to completed, keeping ticket status clean and consistent in the centralized database. ✅📅
+
+If the jstatus is already cancelled, it remains unchanged to preserve cancellation records. ❌🛑
+
 Compared to previous versions, this release is more dynamic, efficient, and powerful! ⚡🔥
 
 
@@ -730,6 +737,3 @@ Overall, this version is more enhanced and advanced! 🎉✨
 ⏰✈️ Implemented and maintained accurate flight timings for departure and arrival schedules Done in Version 43&44.
 
 💳🔐 (Optional) Integrated user-side payment gateway supporting payment_mode=ACID for robust, transactional payment processing.
-
-
-

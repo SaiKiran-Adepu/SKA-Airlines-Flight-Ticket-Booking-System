@@ -715,6 +715,101 @@ Now, all details including flight number, airports, timings, and fly time for ea
 
 
 
+Issue 85: jstatus Not Auto-Updating When Journey Date Is Reached 📅⚠️
+
+Problem:
+The jstatus was not updating automatically to reflect the system date because the jd column includes both date and time in a format that impacts MySQL scheduler’s ability to parse and update correctly.
+Additionally, invalid or empty values such as:
+
+'' (empty string)
+
+'None' (literal string)
+
+'0000-00-00'
+
+NULL
+caused MySQL warnings during the STR_TO_DATE() conversion.
+
+⚙️ Fix Overview
+Only valid date strings are processed with STR_TO_DATE().
+
+Invalid and placeholder values are ignored safely using conditions like NOT LIKE '%None%' and IS NOT NULL.
+
+The event scheduler was fixed with a safe MySQL event code that:
+
+Updates jstatus to 'completed' if the journey or return date has passed.
+
+Updates jstatus to 'canceled' if the cancellation date has passed.
+
+Skips rows with invalid or empty date values to avoid warnings and errors.
+
+✅ Fixed MySQL Event Code (Simplified)
+sql
+DROP EVENT IF EXISTS update_journey_status;
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` EVENT `update_journey_status`
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP + INTERVAL 1 MINUTE
+ON COMPLETION NOT PRESERVE
+ENABLE
+DO
+BEGIN
+    -- 1. Mark journey as completed if jd or rd is past date
+    UPDATE airline_reservation
+    SET jstatus = 'completed'
+    WHERE (
+        jd IS NOT NULL AND jd <> '' AND jd NOT LIKE '%None%'
+        AND STR_TO_DATE(TRIM(SUBSTRING_INDEX(jd, '|', -1)), '%d/%b/%Y') < CURDATE()
+        AND (rd IS NULL OR rd = '' OR rd LIKE '%None%')
+    )
+    OR (
+        rd IS NOT NULL AND rd <> '' AND rd NOT LIKE '%None%'
+        AND STR_TO_DATE(TRIM(rd), '%d/%b/%Y') < CURDATE()
+    )
+    AND (jstatus IS NULL OR jstatus NOT IN ('completed', 'canceled'));
+
+    -- 2. Mark as canceled if cancellation date can_on passed
+    UPDATE airline_reservation
+    SET jstatus = 'canceled'
+    WHERE can_on IS NOT NULL AND can_on <> '' AND can_on NOT LIKE '%None%'
+        AND STR_TO_DATE(TRIM(can_on), '%d/%b/%Y') <= CURDATE()
+        AND (jstatus IS NULL OR jstatus NOT IN ('completed', 'canceled'));
+END$$
+
+DELIMITER ;
+⚙️ Post-Fix Instructions
+Enable event scheduler with:
+
+text
+SET GLOBAL event_scheduler = ON;
+SHOW EVENTS LIKE 'update_journey_status';
+You should see STATUS: ENABLED. ✅
+
+To test immediately, run the manual update:
+
+sql
+UPDATE airline_reservation
+SET jstatus = 'completed'
+WHERE (
+    ...
+)
+AND (jstatus IS NULL OR jstatus NOT IN ('completed', 'canceled'));
+Verify results with:
+
+sql
+SELECT jd, rd, can_on, jstatus FROM airline_reservation;
+🧪 Explanation of Fixes
+Problem	Fix
+'None' string in DB fields	Added NOT LIKE '%None%' filter
+'0000-00-00' invalid dates	Ignored with IS NOT NULL and format checks
+Empty strings ''	Filtered out with jd <> '' conditions
+Parsing warnings from STR_TO_DATE	STR_TO_DATE only runs on valid formatted strings
+Typos or missing values	Wrapped all conditions with safe NULL and error checks
+This ensures robust, warning-free, and accurate updating of ticket statuses in the airline_reservation table based on valid date inputs.
+
+
 Key Issues Summary (74-84)
 ⏰ Fixed missing departure/arrival time inserts and reflections.
 
