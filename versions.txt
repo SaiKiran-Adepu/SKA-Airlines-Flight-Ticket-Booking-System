@@ -722,6 +722,111 @@ Overall, this version is more enhanced and advanced! 🎉✨
 
 
 
+🚀 Version 45
+
+In this version, all mistakes have been corrected, including replacing terms like Airline Boarding Pass with Flight E-Ticket across all modules ✈️🎫✅
+
+
+
+🚀 Version 46
+
+In this version, the Flight Boarding Pass Generator module has been developed for the admin side ✈️🎫.
+
+The admin logs in at the airport, and the concerned admin can generate a boarding pass using the PNR number for today’s and upcoming journeys only.
+
+Fixed issues where flight types were displaying incorrectly on the admin side during ticket booking.
+
+Fixed the issue where flights with the origin Hyderabad and destination New Delhi were showing incorrect timings and flight duration ⏱️✅.
+
+
+
+
+
+✈️ SKA Airlines — Phase 3 🚀
+
+Under Phase 3 of the SKA Airlines Project, there have been huge UI-related developments to improve the UX (User Experience) and add dynamic content, while maintaining our existing project logic.
+
+This phase focuses on using:
+✅ Bootstrap + Bootstrap Icons + Aviation.css (stored in static/css)
+to build a modern UI that is fully compatible with all devices such as PCs, laptops, and mobile devices 📱💻🖥️.
+
+
+
+🚀 Version 47
+
+In this version, huge UI development has been introduced 🎨✨.
+
+🌐 Index Side
+
+Developed a huge UI upgrade to make the webpage look more dynamic and attractive using Bootstrap and icons ✨🎯.
+
+Modified the instructions file and added more important information 📝✅.
+
+🛠️ Admin Side
+
+Improved and corrected the admin UI to make it more dynamic and responsive, compatible with all screen resolutions (PC, Laptop, Mobile) 🖥️💻📱.
+
+Developed a dynamic UI for the Admin Boarding Pass Generation module with exact content for printing or downloading 🖨️📥🎫.
+
+Developed logic to restrict admins from cancelling confirmed tickets if the departure time is within 30 minutes of the flight time ⏳🚫🎟️.
+
+Admins can now generate a boarding pass only if the departure time is at least 30 minutes before the flight ✈️⏱️.
+
+Fixed some known issues while improving the UI 🔧✅.
+
+👤 User Side
+
+Huge UI upgradation has been done on the user side as well 🎨✨.
+
+Modified all user pages to look more dynamic and modern 🌟📱.
+
+Developed a query to prevent users from cancelling tickets unless it is at least 8 hours before departure ⏳🚫🎟️.
+
+Developed a Web Check-in Boarding Pass Generator module 🎫🧾:
+
+Tickets are displayed in the user dashboard in webchecking_boardingpass.html
+
+Boarding pass generation is allowed only if the departure time is between:
+✅ 48 hours before departure and
+✅ 30 minutes before flight departure ⏱️✈️
+
+Added important user instruction points in the Web Check-in Boarding Pass program 📝📌.
+
+Fixed some known issues during dynamic UI development 🔧✅.
+
+
+
+🚀 Version 48
+
+In this version, flight booking restrictions have been implemented ✈️⏳.
+
+👤 Index & User Side
+
+Flight bookings are allowed only up to 3 hours before the scheduled flight departure time ⏱️🚫.
+
+🔁 Return Date Rule
+
+The return flight departure date is always greater than the booking date — no issues found ✅📅.
+
+🛠️ Admin Side
+
+Flight bookings are allowed only up to 1 hour before the scheduled flight departure time ⏱️🚫.
+
+🔧 Fixes & Improvements
+
+Fixed known issues in the application:
+
+Admin boarding pass generation time limit changed to 20 minutes before departure 🎫⏱️.
+
+User-side boarding pass generation time limit increased to 30 minutes before departure 🎫✈️.
+
+✅ Overall, all known issues in the application have been fixed and improved.
+
+
+
+
+
+
   --------------------------------------------- End of Changelog -----------------------------------------------------------
 
 -------------------------------------------------------------------------------------------------------------------------------
