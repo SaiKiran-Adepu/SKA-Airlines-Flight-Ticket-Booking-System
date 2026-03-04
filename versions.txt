@@ -1,5 +1,7 @@
 THE SKA AIRLINES VERSIONS AND APPLICATION DEVELOPMENTS ✈️🛠️
 
+--------------------------------------------------------PAHSE 1-------------------------------------------------------------------------------
+
 SKA Airlines ✈️ Application Changelog 🛠️
 
 The latest version is always the newest ✨; airline0 is old 📦, and airline1 is newer than airline0 🆕.
@@ -255,7 +257,7 @@ Frees or flags the seat in the airline_sitting table for reuse ♻️.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-THE PHASE 2
+--------------------------------------------------------------THE PHASE 2--------------------------------------------------------------------------
 
 
 ✅ Phase 1 Recap — Locked & Completed
@@ -726,7 +728,9 @@ Overall, this version is more enhanced and advanced! 🎉✨
 
 In this version, all mistakes have been corrected, including replacing terms like Airline Boarding Pass with Flight E-Ticket across all modules ✈️🎫✅
 
+----------------------------------------------------------------THE PHASE 3---------------------------------------------------------------------
 
+Concentrated on the UI Fixes entire application to meet the Mobile and proper layout
 
 🚀 Version 46
 
@@ -737,9 +741,6 @@ The admin logs in at the airport, and the concerned admin can generate a boardin
 Fixed issues where flight types were displaying incorrectly on the admin side during ticket booking.
 
 Fixed the issue where flights with the origin Hyderabad and destination New Delhi were showing incorrect timings and flight duration ⏱️✅.
-
-
-
 
 
 ✈️ SKA Airlines — Phase 3 🚀
@@ -824,7 +825,72 @@ User-side boarding pass generation time limit increased to 30 minutes before dep
 
 
 
+🚀 Version 49 – Release Notes
 
+🪑 Seat Availability Fix:
+Fixed seats_avl.py to accurately display real-time seat availability on the booking page.
+This is a major and impactful improvement ensuring correct seat allocation during booking.
+
+💳 Payment System Migration:
+Migrated the Bank database from Oracle to MySQL for all payment gateway operations, including ticket booking and cancellation.
+
+🏦 Bank Module Integration:
+Created a dedicated bank module within the project to handle banking user and admin ticket booking/cancellation processes seamlessly.
+
+🔄 JSP to Flask Migration:
+Converted all bank-side .jsp files to Flask (.py) with MySQL database queries for improved performance, maintainability, and system consistency.
+
+📱 Dynamic QR Payment View:
+Updated bank-side HTML pages to support dynamic transaction views, including secure QR-based payment processing.
+
+📧 Email Enhancements:
+Enhanced email notifications by adding relevant information regarding boarding passes and ticket cancellations.
+
+✅ Overall, all known issues in the application have been fixed and improved.
+
+Important Credentials DB Mysql 
+
+Root tiger
+
+SKA Projects ska_Projetcts
+
+airline_admin  ska_airline_admin
+
+🚀 Version 50 – Release Notes
+
+🔒 QR Transaction Security Enhancement:
+Restricted the bank-side QR transaction flow to prevent duplicate payments.
+If a transaction with the same txn_id is already completed, the system automatically redirects the user to the home page after payment.
+Any further attempt to process the same transaction is blocked to prevent duplicate ticket booking and bank debits.
+
+🎫 Dynamic Ticket Layout Improvements:
+Updated ticket layouts to support dynamic views for both Admin and Guest users, ensuring a more structured and role-based display.
+
+🛠️ Bug Fixes & Stability Improvements:
+Resolved several known and minor issues across the project to improve overall performance and system stability.
+
+
+🚀 Version 51 – Release Notes
+
+🎫 Common Ticket Template Implementation:
+Introduced a unified base_ticket.html template for both Admin and User sides, covering:
+
+Ticket download
+
+Ticket history
+
+Admin PNR download
+
+Admin audit view
+
+Additionally, created base_ticket2.html for handling ticket layouts specifically during the booking stage.
+These common templates now serve all ticket style layouts across the project, ensuring consistency and maintainability.
+
+🛫 Boarding Pass Layout Fix:
+Fixed boarding pass generation for both Admin and User sides, ensuring proper layout formatting during printing and download operations.
+
+🛠️ Bug Fixes & Stability Improvements:
+Resolved several known issues to enhance overall system stability and performance.
 
 
   --------------------------------------------- End of Changelog -----------------------------------------------------------
