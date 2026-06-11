@@ -893,6 +893,828 @@ Fixed boarding pass generation for both Admin and User sides, ensuring proper la
 Resolved several known issues to enhance overall system stability and performance.
 
 
+🚀 Version 52 – Release Notes
+
+✈️ Duplicate Airport Selection Fix (Admin):
+Fixed an issue in the Add New Flight module where the Airport field could accept duplicate entries during insertion. For example, if an admin selected airports like HYD, NLD, NY, MBI, HYD, the system previously allowed HYD twice. This has now been corrected so that each airport can appear only once in the route sequence.
+
+💰 Automatic Fare Calculation Trigger:
+Updated the flight fare triggers so that the ticket fare is automatically calculated when the distance (KM) is entered. A new database trigger has been introduced to handle this process seamlessly.
+
+🛡️ Duplicate Entry Restriction – airplane_fare Table:
+Implemented restrictions to prevent duplicate records in the airplane_fare table. The system now blocks duplicate entries whether the airport order is ordered or reversed.
+
+🔒 Duplicate Prevention – flight_legs Table:
+Added constraints to ensure that duplicate route legs cannot be inserted within the same flight number, improving route data integrity.
+
+⚙️ Admin Program Update:
+All the above improvements and validations were implemented in the new_flight.py module on the Admin side.
+
+🏦 New Banking Module – User Bank Account Creation:
+Introduced a new feature in the payment gateway system allowing unregistered users to request a bank account. Users can now submit an account request, which can be approved by the SKA Bank cashier or bank administrator.
+
+🗄️ New Database Table:
+Created a new table userp in the Bank database to store and manage these bank account requests.
+
+🛠️ General Fixes:
+Resolved several known issues to improve overall system stability and reliability.
+
+
+Version 53 🚀
+
+✈️ Updated flight numbers to align with airline names, and added support for new aircraft types: Airbus A380 and Boeing 737.
+🧠 Developed backend logic in new_flight.py to automatically generate unique flight numbers based on the selected airline.
+🗄️ Modified affected database tables (flights and flight_legs) to match the updated flight number system.
+⚙️ Upgraded the seat allocation trigger to dynamically assign seats based on the maximum available class configuration for each flight type.
+🪑 Seat Configuration (Max Capacity per Flight)
+First Class: 16
+Business Class: 100
+Premium Economy: 150
+Economy: 550
+🌍 Added new international routes including:
+Japan, Singapore, Qatar, South Korea, France, Spain, Italy, Canada, China, Russia, New Zealand, Australia, Thailand, Malaysia, Denmark, Netherlands, Germany, Finland, Sweden, Norway, Belgium.
+📊 Inserted all corresponding routes with fares and timings into the flight_legs table.
+
+
+Version 54 🚀
+1. Flight Search and Booking Enhancements
+Flight search has been improved to support both country codes and country names during ticket booking.
+Implemented modules:
+
+Admin side:
+
+Ticket booking
+
+New flight creation
+
+Fare management
+
+User side:
+
+Flight ticket booking completed
+
+Guest user side:
+
+Flight search implemented
+
+Ticket booking enabled
+
+Flight schedule added with search by flight name
+
+
+2. Seat Allocation System (Database-Driven Implementation)
+The seat allocation logic has been redesigned to use a database-driven approach instead of hardcoded values.
+A new table seat_master has been created to store all possible seat numbers, covering the maximum seating capacity of aircraft.
+
+Before (Old Approach)
+Iterated through up to 600 values 😓
+Used string parsing
+Heavy cursor usage
+Difficult to maintain
+Now (Improved Approach)
+Uses a single SELECT query ⚡
+Leverages indexed tables
+Easier to maintain and extend
+More suitable for production environments
+
+Indexes Added
+CREATE INDEX idx_seat_master_class ON seat_master(class_type, row_no, seat_col);CREATE INDEX idx_sitting_lookup ON airline_sitting(seat_number, seat_status);
+
+Final System Behavior
+The updated flow works as follows:
+User books a ticket
+Trigger is executed automatically
+The system checks:
+Flight class
+Flight number
+Journey date
+The first available seat is selected from seat_master
+Seat is assigned automatically
+Key Improvements
+No loops
+No string manipulation
+No hardcoded seat lists
+
+THE CORRECTED AND ADVANCED allocate_seat_number trigger with no hardcoded seat numbers directly from the db table seat_master
+
+DROP TRIGGER IF EXISTS allocate_seat_number;
+DELIMITER $$
+
+CREATE TRIGGER allocate_seat_number
+BEFORE INSERT ON airline_sitting
+FOR EACH ROW
+BEGIN
+    -- ✅ Variables
+    DECLARE class_type VARCHAR(100);
+    DECLARE journey_date VARCHAR(100);
+    DECLARE flight_num VARCHAR(11);
+    DECLARE candidate_seat VARCHAR(10);
+
+    -- ✅ Get reservation details
+    SELECT flight_class, jd, flight_Number
+    INTO class_type, journey_date, flight_num
+    FROM airline_reservation
+    WHERE PNR = NEW.PNR;
+
+    /* =========================================================
+       ✅ SINGLE STEP: Pick NEXT AVAILABLE SEAT IN ORDER
+       (handles both cancelled + fresh seats automatically)
+    ========================================================= */
+    SELECT sm.seat_number
+    INTO candidate_seat
+    FROM seat_master sm
+    WHERE sm.class_type = class_type
+
+    -- ❌ exclude already occupied seats
+    AND NOT EXISTS (
+        SELECT 1
+        FROM airline_sitting s
+        JOIN airline_reservation r ON s.PNR = r.PNR
+        WHERE r.flight_class = class_type
+          AND r.jd = journey_date
+          AND r.flight_Number = flight_num
+          AND s.seat_number = sm.seat_number
+          AND s.seat_status IN ('ACTIVE','REUSED')
+    )
+
+    -- ❌ avoid duplicates within same PNR
+    AND sm.seat_number NOT IN (
+        SELECT seat_number
+        FROM airline_sitting
+        WHERE PNR = NEW.PNR
+    )
+
+    ORDER BY sm.row_no, sm.seat_col
+    LIMIT 1;
+
+    -- ✅ assign seat
+    IF candidate_seat IS NOT NULL THEN
+        SET NEW.seat_number = candidate_seat;
+        SET NEW.seat_status = 'ACTIVE';
+    END IF;
+
+END$$
+
+DELIMITER ;
+
+A clean, scalable, and production-ready seat allocation system.
+
+
+
+
+
+## Version 55 ✈️🔥
+
+In this version, duplicate ticket bookings have been successfully restricted for both Admins and Users. ✅
+
+After booking a ticket successfully, if the Admin or User clicks the browser back button, the system will no longer allow duplicate ticket booking again. Instead, it will display the following message:
+
+> “Ticket is already booked. Please book a new ticket from the beginning.” ⚠️
+
+Also, payment gateways have been restricted to prevent duplicate debit or credit transactions if the ticket has already been booked successfully. 💳🚫
+
+This fix is mainly implemented to prevent duplicate bookings in the system and improve booking security and reliability. 🔒✨
+
+For this implementation, the following files were developed:
+
+* `booking_guard.py`
+* `booking_back_guard.html`
+
+Added the following code in the main `airline.py` application to redirect Admins and Users properly to their respective dashboards and to avoid direct access to booking pages without login authentication. 👨‍💻🛫
+
+```python
+# Added the booking flow guard for Admin, User, and Guest
+# in the 404 error page to avoid direct access of booking pages without login
+
+@app.errorhandler(404)
+def handle_404(_error):
+    path = (request.path or "").lower()
+
+    if path.startswith('/admin'):
+        return render_template(
+            'common/booking_back_guard.html',
+            actor_label='Admin',
+            home_url=url_for('home'),
+            booking_url=url_for('admin_dashboard_bp.ticket_admin'),
+            dashboard_url=url_for('admin_login_bp.welcome_admin')
+        ), 404
+
+    if path.startswith('/user'):
+        return render_template(
+            'common/booking_back_guard.html',
+            actor_label='User',
+            home_url=url_for('home'),
+            booking_url=url_for('user_dashboard_bp.ticket_user'),
+            dashboard_url=url_for('user_login_bp.welcome_user')
+        ), 404
+
+    return render_template(
+        'common/booking_back_guard.html',
+        actor_label='Guest',
+        home_url=url_for('home'),
+        booking_url=url_for('guest_dashboard_bp.ticket_index'),
+        dashboard_url=None
+    ), 404
+```
+
+
+
+
+✈️ Version 56 Update
+
+In this version, 2 major operational modules were developed on the admin side to help monitor, audit, and analyze flight bookings based on flight number and journey date. 📊🛫
+
+🔹 Module 1 — Flight Passenger Manifest & Audit Report
+
+Developed an admin module that displays all flight reservation tickets based on the selected flight and journey date.
+Admins can directly audit passenger booking details, and each selected PNR is linked to the Admin PNR Enquiry system for detailed verification and investigation. 🎫🔍
+
+🔹 Module 2 — Flight Booking Summary Dashboard
+
+Developed an operational dashboard module that displays total flight bookings for the selected journey date.
+The dashboard provides flight-wise booking summaries, passenger load details, revenue insights, and route information. From this module, admins can directly navigate to the Flight Passenger Manifest & Audit Report for detailed passenger-level auditing. 📈✈️👨‍✈️
+
+
+Version 57 ✈️
+
+In this version, fixed the layout issues at the admin side, including ticket_admin_download_su and pnr_enq_admin_su.html pages. 🛠️
+
+Also fixed the issue with ticket bookings occurring at the same time on the user side, and updated the HTML templates to make them more compact and responsive for mobile view 📱✨
+
+Additionally, added type="number" for the passenger age field on both the user side and admin side while booking tickets, improving input validation and user experience 🔢✅
+
+
+Version 58 ✈️
+
+In this version, fixed the known issues and improved overall system stability 🛠️✅
+
+Introduced a new feature during ticket booking for Admin, User, and Guest modules. In the flight search results, users and admins can now view the seat availability for the next 6 days 📅💺
+
+Also added a new flight type: <strong>Private Jet</strong> 🛩️✨ for luxury and VIP travel bookings.
+
+✈️ Version 59
+
+Adjusted and improved most ticket layout issues for mobile resolution devices 📱
+Fixed known issues in the application 🛠️
+
+✈️ Version 60
+
+Fixed the main issue where the JSTATUS was not automatically updating to COMPLETED after the journey arrival date and time had passed ⏰
+Example: If the arrival time was 13:10, 18/May/2026, the status will now automatically update without requiring a MySQL scheduler.
+This enhancement mainly helps while using the SQLite database 💾
+Modified the program logic to ensure the status updates correctly based on arrival date and time logic in journey_status_updater.py ⚙️
+Fixed additional known issues in the application 🛠️
+
+✈️ Version 61
+
+✈️ In this version, the class selection dropdown has been removed once the user selects a flight number, making the booking flow smoother and more user-friendly.
+
+🎟️ Improved the flight selection UI — when a user/admin selects a flight, the system now instantly displays the available seats, and the Book button is integrated directly inside the flight selection section for faster booking access.
+
+📱🔐 Resolved a major QR payment security issue on the user side where mobile payment pages were opening directly when the URL was pasted into a mobile browser. This issue has now been fixed by implementing enhanced validation logic and adding extra columns in the qr_payment_status table for better payment session tracking and protection.
+
+🛡️ Developed secure password hashing for both the admin users and bank-side operations. Passwords are now stored in hashed format to improve authentication security and protect sensitive account data.
+
+💺 Modified the FIRST CLASS fare to ₹6500.
+
+
+Overall, this is an advanced and more secure version of the airline booking system. 🚀✨
+
+If any major issues are found, revert back to **Version 54-59** for stability. 
+
+
+🌟 Version 62 – SKA Airlines Integrated Wallet & Flight Operations System Update ✈️💼
+
+Good evening! 😊
+
+Here is the corrected and refined version of your update:
+
+💳 Integrated Wallet System (Userreal-based)
+
+Developed an integrated wallet system using the userreal table, linked with the airline_user number, for the user side. The MASTER ACID is 106.
+
+For the Admin Side, the following modules were developed:
+
+➕ Add Money
+➖ Deduct Money
+📄 View Transactions
+💰 Refund History
+📊 View Balance
+🔄 User Wallet Transactions
+🎁 Wallet Offers (common for Admin / User / Guest)
+👮 Admin User Management System
+
+Developed an admin control module to manage users effectively:
+
+🚫 Admin can block user accounts
+⚠️ If a blocked user tries to log in, the system displays:
+“Please visit the SKA Airlines office until further admin action.”
+🔐 This is handled via the airline_users table using user_status values like ACTIVE / BLOCKED
+
+Additionally:
+
+🔍 Admin can view blocked users history
+📑 Searchable bar implemented for easy filtering
+✈️ Flight Operational Management Module
+
+Developed a complete flight operations control system:
+
+✈️ Cancel flights
+⏳ Delay flights
+🟢 Set ON_TIME status
+
+These updates reflect in the flight table, including:
+
+flight_status
+cancelled_from
+cancelled_to
+cancellation_remarks
+⚙️ Automatic Flight Status Updater (flight_status.py)
+🔄 Automatically updates flights
+When the cancelled_to date is completed, the system automatically changes status back to ON_TIME
+👁️ Flight Status Visibility (Common Module)
+Displays flight operational status (Cancelled / Delayed / On Time)
+Visible to Guest / User / Admin
+🧹 QR Payment Cleanup Module (qr_payment_cleanup.py)
+🗑️ Automatically deletes unwanted or expired records
+Cleans up the qr_payment_status table regularly
+👤 User Side Wallet Modules
+
+Developed user-side wallet features:
+
+➕ Add Money
+💰 View Balance
+📜 Transaction History
+💸 Refund History
+🎁 Wallet Offers
+🚫 Flight Booking Restrictions Logic
+Cancelled flights are automatically restricted based on dates
+❌ Such flights will NOT be visible for booking (User / Admin / Guest)
+⏳ They reappear only after cancellation period ends or admin reactivates ON_TIME status
+🌍 Guest User Module
+✈️ Displays flight operational status (Cancelled / Delayed / On Time)
+🚫 Prevents booking of restricted flights
+📑 Separate module for viewing cancelled flights
+🔍 Includes searchable bar for easy access
+🚀 Overall Summary
+
+This version is a highly powerful and stable upgrade 💪✨ with:
+
+Strong wallet integration 💳
+Advanced admin controls 👮
+Automated flight status engine 🤖
+Clean payment maintenance system 🧹
+Improved guest visibility & booking safety ✈️
+
+
+
+# 🚀 Version 65 (SQLite) | Version 63 (MySQL) – Airport Name Management & Booking Logic Enhancements ✈️🛫
+
+In this version, introduced a new **Airport Name Display Management System** to improve how airport names are displayed throughout the application for Admin, User, and Guest operations. 🌍✈️
+
+To support this enhancement, a new column named **`real_airport_name`** was added to the **`airports`** table. 🗄️
+
+This column stores the actual airport name and is used for displaying user-friendly airport information during:
+
+* 🎫 Ticket Booking
+* 👤 User Operations
+* 🌐 Guest User Operations
+* 🛠️ Admin Management Modules
+
+---
+
+## ✈️ Airport Management Enhancements
+
+Developed a new sub-module on the **Admin Side** that allows administrators to:
+
+* ➕ Add new airports
+* 🏢 Enter the actual airport name
+* 💾 Automatically save airport information into the `airports` table
+* 🔄 Maintain consistent airport name display throughout the system
+
+---
+
+## 🎫 Booking, Ticket & Boarding Pass Logic Fixes
+
+Implemented and fixed logic related to:
+
+* 🎫 User-side ticket booking process
+* 📥 Ticket downloading functionality
+* 🛠️ Admin-side ticket management
+* 🎟️ Boarding pass generation
+* ❌ Ticket cancellation windows
+* 🛫 Boarding pass cancellation workflows
+
+These improvements ensure that airport names are displayed accurately and consistently across all booking and travel-related operations. ✅
+
+---
+
+## ⚙️ New Business Logic Module – `airport_map.py`
+
+Introduced a new module:
+
+📄 **`airport_map.py`**
+
+inside the **routes** folder.
+
+This module centralizes airport mapping and business-rule validation logic, making the system:
+
+* 🧠 Easier to maintain
+* 🔄 More consistent across modules
+* ⚡ More scalable for future airport additions
+* ✅ Fully compatible with application business rules
+
+---
+
+## 🌟 Key Improvements in Version 65
+
+* ✈️ Introduced Airport Name Display Management System
+* 🏢 Added `real_airport_name` column to the `airports` table
+* ➕ Developed Admin Airport Creation Sub-Module
+* 🎫 Fixed ticket booking and downloading logic
+* 🎟️ Improved boarding pass and cancellation workflows
+* ⚙️ Added centralized `airport_map.py` business logic module
+* 🌍 Enhanced airport name consistency across Admin, User, and Guest interfaces
+* 🚀 Improved maintainability and scalability of airport-related operations
+
+
+
+# ✈️ Version 66 (SQLite) | Version 64 (MySQL)
+
+## 🚀 Flights Database Management System Enhancement
+
+In this version, the Flights DB module has been significantly enhanced. Previously, administrators relied on direct local database access to maintain flight-related master data. Since direct database maintenance is not practical after online deployment, a dedicated **Admin Flight Database Management Module** has now been developed.
+
+The new module allows administrators to view, edit, update, and manage important flight database records directly through the web application.
+
+---
+
+# ✈️ Flights DB Main Menu
+
+The Flights DB section now contains the following modules:
+
+| Module                             | Purpose                            | Editable Fields                                  | Status      |
+| ---------------------------------- | ---------------------------------- | ------------------------------------------------ | ----------- |
+| 1️⃣ Manage Flight Type Seats       | Manage aircraft seating capacities | seat_count                                       | ✅ Completed |
+| 2️⃣ Flight Class & Quota Fares     | Manage fare amounts                | class_fare, quota_fare                           | ✅ Completed |
+| 3️⃣ Manage Airplane Fare & KM      | Maintain flight distance           | km only                                          | ✅ Completed |
+| 4️⃣ View Airports                  | Airport master data                | View Only                                        | ✅ Completed |
+| 5️⃣ View Registered Flights & Fare | Flight registration details        | base_fare                                        | ✅ Completed |
+| 6️⃣ Manage Flight Timings          | Flight schedules                   | departure_time, arrival_time, arrival_day_offset | ✅ Completed |
+| 7️⃣ Add New Flight Type            | Register new aircraft models       | New Records                                      | ✅ Completed |
+
+---
+
+# 🎨 Common UI Framework Introduced
+
+To maintain a consistent user experience across all Flights DB modules, reusable components have been developed.
+
+### Reusable Files
+
+**CSS**
+
+* `static/css/flights_db.css`
+
+**JavaScript**
+
+* `static/js/flights_db.js`
+
+**Base Template**
+
+* `flights_db_base.html`
+
+All Flights DB pages now utilize these common reusable resources.
+
+---
+
+# 🔍 Common Features Added to All Modules
+
+### Header Information Card
+
+Each module now includes:
+
+* Bootstrap Icon
+* Module Title
+* Module Description
+* Professional Card Layout
+
+### Search Facility
+
+A reusable search component has been implemented across all management pages, allowing administrators to quickly locate records.
+
+### Update Controls
+
+All editable modules now provide a standardized:
+
+✅ Update Changes button
+
+for saving modifications.
+
+### Common Footer
+
+All Flights DB pages now include a reusable footer displaying:
+
+© SKA Airlines {{ current_year }} All Rights Reserved.
+
+---
+
+# 🪑 Module 1 – Manage Flight Type Seats
+
+### Purpose
+
+Maintain aircraft seating capacities used during ticket booking and seat allocation.
+
+### Editable Field
+
+* Seat Count
+
+### Read-Only Fields
+
+* Flight Type ID
+* Aircraft Name
+
+---
+
+# 💰 Module 2 – Flight Class & Quota Fares
+
+### Purpose
+
+Manage fare amounts associated with travel classes and passenger quotas.
+
+### Editable Field
+
+* Fare Amount
+
+Supported Tables:
+
+* Class Fare
+* Quota Fare
+
+---
+
+# 📏 Module 3 – Manage Airplane Fare & KM
+
+### Purpose
+
+Maintain route distance information.
+
+### Editable Field
+
+* KM
+
+### Automated Fare Calculation
+
+Fare values are automatically calculated using the company pricing formula:
+
+**Fare = KM × 12**
+
+Direct fare editing has been restricted to maintain pricing consistency.
+
+---
+
+# 🏢 Module 4 – View Airports
+
+### Purpose
+
+Display airport master data in a centralized view.
+
+### Information Displayed
+
+* Airport Code
+* Airport Name
+* Real Airport Name
+* City
+* Country
+
+### Future Enhancements
+
+* Export to PDF
+* Export to Excel
+
+---
+
+# 🛫 Module 5 – View Registered Flights & Fare
+
+### Purpose
+
+Maintain registered flight fare configurations.
+
+### Displayed Information
+
+* Flight Number
+* Origin
+* Destination
+* Aircraft
+* Base Fare
+
+### Editable Field
+
+* Base Fare
+
+---
+
+# ⏰ Module 6 – Manage Flight Timings
+
+### Purpose
+
+Maintain flight schedules and automatically calculate journey duration.
+
+### Editable Fields
+
+* Departure Time
+* Arrival Time
+* Arrival Day Offset
+
+### Automatic Duration Calculation
+
+Example:
+
+Departure Time: 22:00
+
+Arrival Time: 01:30
+
+Arrival Day Offset: 1
+
+Result:
+
+3 Hours 30 Minutes
+
+The calculated duration is automatically stored within the database.
+
+---
+
+# ✈️ Module 7 – Add New Flight Type
+
+### Purpose
+
+Register new aircraft models that can be assigned to flights and schedules.
+
+### Fields
+
+* Aircraft Code
+* Aircraft Name
+* Seat Count
+* Manufacturer
+* Description
+
+### Duplicate Protection
+
+The system now validates duplicate aircraft entries before insertion.
+
+If a duplicate flight type exists, the system displays:
+
+⚠️ Flight Type Already Exists
+
+and prevents duplicate record creation.
+
+---
+
+# 🔒 Data Integrity Improvements
+
+### POST → REDIRECT → GET Pattern Implemented
+
+All update operations now utilize the Post-Redirect-Get pattern to prevent accidental form resubmission during browser refresh.
+
+Benefits:
+
+* Prevents duplicate updates
+* Prevents duplicate insertions
+* Improves application reliability
+
+### Unique Constraint Recommendations
+
+The following fields are protected against duplication:
+
+* Aircraft Code
+* Flight Number
+* Airport Code
+
+---
+
+# ✅ Summary
+
+Version 66 introduces a complete web-based Flights Database Management System that replaces dependency on direct database maintenance tools. Administrators can now safely manage aircraft, fares, airports, flight schedules, and related operational master data through a centralized, user-friendly interface while maintaining data integrity and consistency across the SKA Airlines Reservation System.
+
+
+🚀 Version SQLite 67 | MySQL 65
+
+✨ In this version, an important enhancement was developed for the User Registration module. User registration is now completed successfully only after entering a valid OTP sent to the registered email address.
+
+🔧 Fixed known issues and improved overall code reusability and maintainability across the application.
+
+
+---
+
+Overall, Version 65 significantly improves airport data management, booking accuracy, and system-wide consistency while providing a more user-friendly airport display experience. ✨🛫
+
+# 🚀 Version 68 (SQLite) | Version 66 (MySQL) – Connecting Flights System ✈️🌍
+
+In this version, developed a new **Connecting Flight Suggestion System** to improve booking flexibility when no direct flights are available between an origin and destination. 🛫➡️🛬
+
+---
+
+## ✈️ New Feature: Step-wise Connecting Flights System
+
+When a direct flight is not available, the system now automatically suggests **multi-step flight routes** based on available connecting airports. 🌐
+
+This feature intelligently calculates and suggests:
+
+* 🛬 Intermediate hub airports
+* ⏳ Connection time validation between flights
+* ⌛ Minimum layover time: **40 minutes**
+* ⏱️ Maximum layover time: **up to 6 hours**
+
+This ensures realistic and safe connection planning for passengers. ✅
+
+---
+
+## 🛠️ New Modules Developed
+
+To implement this feature, the following components were created:
+
+* 📄 `connect_flight.py` (backend logic)
+* 🌐 `connect_flight.html` (UI for displaying connection routes)
+
+---
+
+## 🔄 Integration Across System
+
+The `connect_flight.py` module has been integrated into:
+
+* 👤 Guest User ticket booking flow
+* 🛠️ Admin ticket booking system
+
+Now, when no direct flights are found:
+
+* ✈️ The system automatically suggests step-wise connecting flights
+* 🧭 Users can book individual flight segments
+* 💡 This avoids the need to redesign the entire application architecture
+
+---
+
+## ⚙️ Bug Fixes & Improvements
+
+* 🐞 Fixed known issues across the flight booking system
+* 🔄 Improved fallback logic when no direct flights exist
+* ✈️ Enhanced reliability of flight search and routing engine
+* 🧠 Improved system decision-making for alternative routes
+
+---
+
+## 🌟 Key Improvements in Version 68
+
+* ✈️ Introduced Connecting Flight Recommendation System
+* 🧭 Added intelligent multi-airport route suggestions
+* ⏳ Implemented layover constraints (40 mins – 6 hrs)
+* 🛠️ Developed `connect_flight.py` and `connect_flight.html`
+* 👤 Integrated into both Admin and Guest booking flows
+* 🔄 Improved system scalability without redesign
+* 🐞 Fixed existing known system issues
+* 🌍 Enhanced overall booking flexibility and user experience
+
+---
+
+Overall, Version 68 significantly improves flight availability handling by introducing smart connection-based routing, making the system more powerful, flexible, and user-friendly. 🚀✈️
+
+🚀 Version 69 (SQLite) | Version 67 (MySQL)
+
+🔒 As part of this version's security enhancements, a CAPTCHA verification layer has been added as an additional login security measure.
+
+✅ CAPTCHA validation has been integrated into both `admin_login.py` and `user_login.py`.
+
+🎨 The login page UI templates have also been updated to support and align with this new security feature.
+
+🛠️ To implement this functionality, a new module named `login_captcha_generator.py` was developed and placed inside the `security` folder.
+
+
+🚀 Version 70 (SQLite) | Version 68 (MySQL)
+
+🔒 As part of the login security enhancement, account lockout protection has been implemented.
+
+✅ If a user or admin reaches **5 or more failed login attempts**, the account will be automatically locked for **24 hours**.
+
+🛠️ To support this feature, two new modules were developed:
+
+* `admin_login_attempts.py`
+* `user_login_attempts.py`
+
+📦 These modules have been integrated into:
+
+* `admin_login.py`
+* `user_login.py`
+
+🗄️ Additionally, two new columns were added to both the `airline_admins` and `airline_users` tables:
+
+* `login_attempts`
+* `login_locked_until`
+
+🚫 The Login button is now automatically disabled when the failed login attempts reach the configured threshold and the account is locked, preventing further login attempts until the lockout period expires.
+
+🔐 This enhancement provides stronger protection against brute-force attacks and unauthorized access attempts.
+
+
+
+
   --------------------------------------------- End of Changelog -----------------------------------------------------------
 
 -------------------------------------------------------------------------------------------------------------------------------
