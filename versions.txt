@@ -935,6 +935,8 @@ Economy: 550
 Japan, Singapore, Qatar, South Korea, France, Spain, Italy, Canada, China, Russia, New Zealand, Australia, Thailand, Malaysia, Denmark, Netherlands, Germany, Finland, Sweden, Norway, Belgium.
 📊 Inserted all corresponding routes with fares and timings into the flight_legs table.
 
+-----------------------------------------------------------THE PHASE 4-------------------------------------------------------------------------
+
 
 Version 54 🚀
 1. Flight Search and Booking Enhancements
@@ -1118,8 +1120,6 @@ def handle_404(_error):
 ```
 
 
-
-
 ✈️ Version 56 Update
 
 In this version, 2 major operational modules were developed on the admin side to help monitor, audit, and analyze flight bookings based on flight number and journey date. 📊🛫
@@ -1184,10 +1184,6 @@ If any major issues are found, revert back to **Version 54-59** for stability.
 
 
 🌟 Version 62 – SKA Airlines Integrated Wallet & Flight Operations System Update ✈️💼
-
-Good evening! 😊
-
-Here is the corrected and refined version of your update:
 
 💳 Integrated Wallet System (Userreal-based)
 
@@ -1603,9 +1599,9 @@ Version 66 introduces a complete web-based Flights Database Management System th
 🔧 Fixed known issues and improved overall code reusability and maintainability across the application.
 
 
----
-
 Overall, Version 65 significantly improves airport data management, booking accuracy, and system-wide consistency while providing a more user-friendly airport display experience. ✨🛫
+
+
 
 # 🚀 Version 68 (SQLite) | Version 66 (MySQL) – Connecting Flights System ✈️🌍
 
@@ -1676,6 +1672,8 @@ Now, when no direct flights are found:
 
 Overall, Version 68 significantly improves flight availability handling by introducing smart connection-based routing, making the system more powerful, flexible, and user-friendly. 🚀✈️
 
+
+
 🚀 Version 69 (SQLite) | Version 67 (MySQL)
 
 🔒 As part of this version's security enhancements, a CAPTCHA verification layer has been added as an additional login security measure.
@@ -1685,6 +1683,7 @@ Overall, Version 68 significantly improves flight availability handling by intro
 🎨 The login page UI templates have also been updated to support and align with this new security feature.
 
 🛠️ To implement this functionality, a new module named `login_captcha_generator.py` was developed and placed inside the `security` folder.
+
 
 
 🚀 Version 70 (SQLite) | Version 68 (MySQL)
@@ -1713,6 +1712,202 @@ Overall, Version 68 significantly improves flight availability handling by intro
 🔐 This enhancement provides stronger protection against brute-force attacks and unauthorized access attempts.
 
 
+✈️ Version SQLite 71 | MySQL 69
+
+🚀 In this version, a new flight search module has been implemented, allowing users to search for flights using airport names.
+
+🛫 The module displays a list of flights originating from the selected airport, along with their departure times and arrival times at the destination airport.
+
+🔧 Fixed known issues in the guest user module flight_operational_status.py:
+
+Corrected an issue where cancelled flights were incorrectly displayed as ON_TIME.
+Improved flight status display accuracy.
+Fixed various UI-related issues for a better user experience. ✨
+
+✅ Overall improvements have been made to flight search functionality, flight status accuracy, and the guest-side user interface. 🎉
+
+
+🚀 Version 72 (SQLite) | Version 70 (MySQL)
+
+✨ In this version, two new Python programs were developed to dynamically fetch and display airline information from the database:
+
+📌 news_flights_aircrafts_airports.py
+
+Retrieves the latest 2 newly added flights ✈️
+Retrieves the latest 2 newly added airports 🏢
+Retrieves the latest 2 newly added aircraft types 🛫
+
+📌 total_flights_routes.py
+
+Retrieves the total number of active flights ✈️
+Retrieves the total number of flight routes 🌍 operated by SKA Airlines
+
+🔧 These programs have been imported into the required routes and the main application to display dynamic information on the homepage/index page.
+
+✅ Removed hardcoded news and statistics data.
+
+🎯 The News & Events section now automatically displays the latest flight, airport, aircraft, and route information directly from the SKA Airlines database, ensuring that users always see accurate and up-to-date operational information. ✈️🌎📡
+
+🚀 **Version 72 (SQLite) | Version 70 (MySQL) — Continued**
+
+✨ In this version, various UI/UX improvements and issue fixes have been implemented across the SKA Airlines application.
+
+### 🎨 UI Improvements
+
+* Fixed multiple UI issues across the application for a cleaner and more consistent user experience.
+* Added the **"Fly Beyond Limits"** caption throughout the UI to strengthen SKA Airlines branding and identity.
+
+### ♻️ Reusable Copyright Component
+
+* Created a reusable template:
+
+  * **templates/common/airline_copyright.html**
+* This component displays the **SKA Airlines copyright footer** along with the current year and can now be included across multiple templates, reducing duplicate code and improving maintainability.
+
+### ✈️ Flight Schedule Integration
+
+* Added a **Flight Schedule** button within the ticket booking window whenever the list of available flights is displayed.
+* This allows users to quickly view flight schedules while booking tickets.
+
+### 🐞 Major Seat Availability Fix
+
+* Fixed a major issue in the ticket booking module where **seat availability checks were not functioning correctly when full airport details were used**.
+* The issue occurred when airport selections included:
+
+  * Airport Name
+  * City Name
+  * Country Information
+* Seat availability now works correctly with complete airport information, ensuring accurate booking and seat allocation.
+
+✅ These enhancements improve usability, maintainability, and the overall booking experience while ensuring accurate flight and seat availability information throughout the SKA Airlines system.
+
+
+
+✈️ Version 73 (SQLite 71 / MySQL)
+
+🤖 ChatBot Introduced to the Airline Application (Guest Side)
+
+In this version, a new AI-powered ChatBot has been introduced to the airline application for the guest user side.
+
+✨ The chatbot is designed to be intelligent and interactive. It responds based on predefined suggestions, provides time-based greetings, and can remember the user's name throughout the current session.
+
+Example:
+
+User: "Hi, I'm Sai Kiran"
+ChatBot: "Hello, Sai Kiran! 👋"
+
+The chatbot will then continue using the user's name during the session to provide a more personalized experience.
+
+📂 Project Structure
+
+Backend Structure
+
+airline/
+├── chat_bot/
+├── guest/
+
+Templates Structure
+
+templates/
+├── chat_bot/
+├── guest/
+
+This separation keeps the chatbot logic and templates organized, making the project easier to maintain and preventing the codebase from becoming cluttered.
+
+🚀 Current Features
+⏰ Time-based greetings (Good Morning / Good Afternoon / Good Evening)
+👤 Session-based user name memory
+💬 Suggestion button support
+✈️ Airline information assistance
+🔍 Flight-related query support
+📰 News & Events integration
+🎫 PNR lookup support
+📅 Flight Schedule information
+🛫 Airport Schedule information
+💳 Wallet information
+⭐ Feedback support
+
+The chatbot is capable of handling a large amount of information and serves as a centralized assistance system for the guest-side index page.
+
+🔜 Next Version
+
+The next version will focus on implementing and integrating the ChatBot for:
+
+👤 User Dashboard / Logged-in User Side
+🛠️ Admin Side
+
+This will provide a consistent and personalized chatbot experience across the entire airline application. ✈️🤖✨
+
+
+
+✈️ Version 74 (SQLite) / Version 72 (MySQL)
+
+🚀 Continuing from Version 73 (SQLite) / Version 71 (MySQL), this release focuses on the implementation and expansion of the SKA Airlines Chatbot across the airline project.
+
+🤖 Chatbot Enhancements
+Implemented the chatbot on the User Side and Admin Side.
+Added session-based greetings and personalization.
+The chatbot can accurately understand and respond to various requests and scenarios.
+Introduced support for numerous keywords, realistic phrases, and common typing mistakes for a smoother experience.
+🛠️ Code Improvements
+All chatbot modules were designed with reusability, maintainability, and modularity in mind.
+The chatbot architecture is optimized to be fast, responsive, and smooth.
+Organized the codebase to make future expansion and maintenance easier.
+🎨 UI, Backend, and Database Improvements
+Resolved various issues across the UI, backend, and database layers.
+Improved overall stability and performance.
+Enhanced the user experience with dynamic buttons and context-aware responses.
+🌟 Project Status
+
+This is one of the most feature-rich and stable versions of the project so far. ✈️
+
+💡 The development of SKA Airlines continues, and more features and improvements will be introduced in future versions.
+
+
+✈️ Version 74 (SQLite) / Version 72 (MySQL) — Continued
+
+🔄 This continued release focuses on improving session security and enhancing the chatbot user experience.
+
+🔒 Session Management Improvements
+
+Fixed a major issue related to session persistence. Previously, if a user or admin logged into the application on a device and forgot to log out, the session could remain active indefinitely, especially when the application was hosted.
+
+To address this issue:
+
+🛡️ Developed session_manager.py and placed it inside the security folder.
+⚙️ Integrated it with airline.py alongside utc_time.py.
+⏳ Implemented automatic session expiration based on inactivity.
+👨‍💼 Admin Session
+If an administrator forgets to log out, the system will automatically terminate the session after 20 minutes of inactivity.
+👤 User Session
+If a user forgets to log out, the session will automatically expire after 2 hours of inactivity.
+
+This enhancement improves both security and resource management, particularly in hosted environments. 🔐
+
+🤖 Chatbot Improvements
+✨ Updated the chatbot interface across all sides of the project.
+📋 Replaced the previous suggestion buttons with a dropdown-style suggestion menu, providing a cleaner and more responsive experience.
+🚀 Improved overall usability and interaction with the SKA Airlines Assistant.
+🌟 Overall
+
+This continued version significantly strengthens the application's security, session handling, and user experience, making SKA Airlines more reliable and production-ready. ✈️💙
+
+
+✈️ Version 74 (SQLite), 72 (MySQL) — Continue 2 🚀
+
+In this continued version, several improvements and security enhancements were implemented for the SKA Airlines Chatbot system. 🤖💙
+
+🔒 Chatbot template protection was introduced by developing dedicated routes.py files for the Admin and User modules. This ensures that pages such as chat_bot_window.html are accessible only to authorized sessions.
+
+🛡️ Additional backend security was implemented through chat_bot_routes.py. Even if someone attempts to access the chatbot endpoints directly through JavaScript or manually invoke API routes, both the templates and backend routes are protected using the corresponding utils.py authentication mechanisms for Admin and User modules.
+
+🔐 An extra layer of security and safety was added to the chatbot architecture, providing enhanced protection against unauthorized access and improving overall reliability.
+
+🤖 The chatbot was further refined to deliver a more realistic, responsive, and user-friendly experience across Guest, User, and Admin modules.
+
+✨ Various known issues were also fixed, resulting in a smoother, faster, and more stable chatbot system.
+
+💙 As always, the project continues with a focus on reusability, maintainability, performance, and continuous improvement. 🚀✈️
 
 
   --------------------------------------------- End of Changelog -----------------------------------------------------------
@@ -1720,12 +1915,11 @@ Overall, Version 68 significantly improves flight availability handling by intro
 -------------------------------------------------------------------------------------------------------------------------------
 
 🚀 Feature Developments
-🧑‍💼💻 Developed a comprehensive admin module to display all operations, including charges and flight types (flight type display is optional) Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI yet(Dynamic UI is not required Optional).
-
+🧑‍💼💻 Developed a comprehensive admin module to display all operations, including charges and flight types (flight type display is optional) Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI DONE.
 🛩️📊 Flight types are now dynamically fetched from database tables during the admin’s flight addition process, enabling seamless and flexible handling. (Implemented in Version 43)
 
 🪑📅 Managed and configured flight layouts using data from the seats_avl.py module linked with the flight layout database table. (Implemented in Versions 39 & 40)
-⚠️ Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI yet(Dynamic UI no need).
+⚠️ Note: Admin seat updates are done directly via backend MySQL database, no dynamic UI DONE.
 
 ⏰✈️ Implemented and maintained accurate flight timings for departure and arrival schedules Done in Version 43&44.
 
